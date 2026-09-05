@@ -1,0 +1,35 @@
+{
+  "name": "jepeuxstationner",
+  "version": "0.0.1",
+  "private": true,
+  "type": "module",
+  "workspaces": [
+    "packages/*",
+    "apps/*"
+  ],
+  "engines": {
+    "node": ">=24 <25"
+  },
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "typecheck": "tsc --noEmit",
+    "test": "npm run build && node --test dist/tests/*.test.js",
+    "demo": "npm run build && node dist/apps/demo/src/index.js",
+    "db:up": "docker compose up -d --wait db",
+    "db:migrate": "node --env-file-if-exists=.env scripts/db.mjs migrate",
+    "test:db": "node --env-file-if-exists=.env scripts/db.mjs test",
+    "db:wait": "node --env-file-if-exists=.env scripts/db.mjs wait",
+    "db:check": "node --env-file-if-exists=.env scripts/db.mjs check",
+    "db:reset": "node --env-file-if-exists=.env scripts/db.mjs reset",
+    "test:integration": "npm run build && node --env-file-if-exists=.env --test dist/tests/integration/*.test.js",
+    "db:explain": "node --env-file-if-exists=.env scripts/db.mjs explain",
+    "validate": "npm run typecheck && npm test && npm run demo",
+    "validate:db": "npm run db:wait && npm run db:check && npm run db:migrate && npm run test:db && npm run test:integration && npm run db:explain"
+  },
+  "devDependencies": {
+    "@types/node": "24.10.1",
+    "@types/pg": "8.15.5",
+    "pg": "8.16.3",
+    "typescript": "5.9.3"
+  }
+}
