@@ -34,3 +34,20 @@ L'architecture de la PHASE 0 est conservée. Seules les adaptations nécessaires
 | ADR-018 | Barrière de passage PHASE 1 | Aucune validation PostGIS affirmée sur revue statique ou tests mémoire. READY FOR PHASE 1 reste NO tant que les preuves runtime GitHub n'ont pas été obtenues et examinées. |
 
 Précision ADR-015 : pour un séjour prévu, « initialement » désigne le début de ParkingQuery, pas l'horloge d'évaluation. Si une permission générale et une interdiction officielle se chevauchent sans priorité documentée, le conflit reste UNKNOWN ; la fixture B représente des règles successives explicites. Aucun rang de priorité juridique n'a été inventé.
+
+
+## PHASE 1 — 2026-09-05
+
+| ID | Décision | Justification / limite |
+| --- | --- | --- |
+| ADR-019 | Commencer PHASE 1 sur confirmation utilisateur | Le brief joint confirme une CI PHASE 0/0.5 entièrement verte. Cette confirmation est distinguée d'une lecture indépendante des logs. La révision PHASE 1 reste à revalider sur GitHub. |
+| ADR-020 | Ajouter un domaine de géocodage dans les packages existants | GeocodingProvider, types et erreurs indépendants ; aucun changement du moteur, du schéma, des migrations ou du fournisseur fictif. |
+| ADR-021 | Géoplateforme search/reverse, index address | Contrat officiel actuel consulté ; autocomplete intégré via search avec 1, recherche via 0. API dépréciée refusée. Pas de Google Maps, DiaLog, données municipales ni règles réelles. |
+| ADR-022 | Cache RAM borné et éphémère | 500 entrées LRU, TTL 24 h positif / 30 s vide, expiration même sans accès ; erreurs non cachées, aucune association IP/compte, aucun stockage sur disque ou PostgreSQL. |
+| ADR-023 | Transport central avec débit partagé | 5/s par défaut par origine/processus, une nouvelle tentative au maximum par défaut, timeout 5 s couvrant le corps. 429 crée un cooldown Retry-After sans retry automatique. Pas de circuit breaker prématuré ; multi-processus à coordonner ultérieurement. |
+| ADR-024 | Coordonnées nommées et géométrie validée | Interne latitude/longitude, GeoJSON et PostGIS longitude/latitude. Pas de permutation automatique de nombres mondialement valides ; résultats hors emprise filtrés, précision et score conservés sans inventer une certitude de stationnement. |
+| ADR-025 | Debounce consommateur et live séparé | 300 ms, minimum 3 caractères, annulation et rejet des réponses obsolètes. Tests unitaires hors réseau inclus dans CI principale ; workflow live manuel à cinq requêtes et échec visible indépendant. |
+
+Le filtre bounds privilégie le centre puis filtre au plus 50 candidats renvoyés ; il n'est pas exhaustif. Les filtres natifs depcode/citycode/city/postcode sont préférables quand disponibles. Aucun périmètre national n'est converti en couverture nationale du stationnement.
+
+Les logs joints sous docs/validation sont des preuves d'exécution sur exemples publics ou fixtures synthétiques et sont explicitement versionnables. Cette exception au gitignore ne concerne aucun log de recherche utilisateur.

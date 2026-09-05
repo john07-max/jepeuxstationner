@@ -24,7 +24,10 @@
     "test:integration": "npm run build && node --env-file-if-exists=.env --test dist/tests/integration/*.test.js",
     "db:explain": "node --env-file-if-exists=.env scripts/db.mjs explain",
     "validate": "npm run typecheck && npm test && npm run demo",
-    "validate:db": "npm run db:wait && npm run db:check && npm run db:migrate && npm run test:db && npm run test:integration && npm run db:explain"
+    "validate:db": "npm run db:wait && npm run db:check && npm run db:migrate && npm run test:db && npm run test:integration && npm run db:explain",
+    "test:geocoding": "npm run build && node --test dist/tests/geocoding.test.js",
+    "test:geocoding:live": "npm run build && node --use-env-proxy --env-file-if-exists=.env --test --test-concurrency=1 dist/tests/live/geocoding.live.test.js",
+    "demo:geocode": "npm run build && node --use-env-proxy --env-file-if-exists=.env dist/apps/demo/src/geocode.js"
   },
   "devDependencies": {
     "@types/node": "24.10.1",

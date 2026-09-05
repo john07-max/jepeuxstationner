@@ -1,15 +1,57 @@
-# JePeuxStationner — PHASE 0.5
+# JePeuxStationner — PHASE 1 : géocodage français
 
-Fondations du MVP et préparation de sa validation PostgreSQL/PostGIS sur GitHub Actions. Données exclusivement fictives ; aucun fournisseur externe, aucune interface web, aucune PHASE 1 commencée.
+Le géocodage Géoplateforme/BAN est implémenté avec recherche, autocomplétion et reverse, types indépendants, cache RAM, débit limité, timeout, retries bornés et erreurs typées. Le moteur de stationnement et la base de PHASE 0.5 restent inchangés. Aucune donnée de stationnement réelle n'est connectée.
 
 ```text
-READY FOR PHASE 1: NO
-Reason: PostgreSQL/PostGIS runtime validation pending.
+READY FOR PHASE 2: NO
+Reason: Current revision CI revalidation pending; live geocoding suite has two timeouts.
+```
+
+## Essayer le géocodage
+
+Node.js 24 est requis. Dans le dossier du projet :
+
+```bash
+npm ci
+npm run typecheck
+npm test
+npm run demo:geocode -- "10 rue de la Paix Paris"
+npm run demo:geocode -- --autocomplete "12 rue vict"
+npm run demo:geocode -- --reverse 48.8566 2.3522
+```
+
+Aucune clé API nécessaire. La CLI affiche adresse normalisée, latitude, longitude, code postal, commune, code INSEE et score lorsqu'ils sont disponibles. Elle échoue explicitement si le service dépasse le timeout. Les adresses ne sont pas stockées en base.
+
+Pour les tests géocodage seuls : `npm run test:geocoding`. Pour cinq requêtes officielles contrôlées : `npm run test:geocoding:live` ; cette commande est volontairement indépendante des tests habituels. Les résultats réels sont dans TEST_RESULTS.md et le contrat complet dans GEOCODING.md.
+
+## Mettre à jour le dépôt GitHub existant
+
+Remplacer les fichiers de votre copie locale par ceux de cette livraison, en conservant le dossier `.git` et votre `.env`. Dans le dossier contenant package.json :
+
+```bash
+git add .
+git commit -m "Add Phase 1 French geocoding"
+git push
+```
+
+Avec **GitHub Desktop** : copier le contenu du dossier extrait dans votre dossier local existant (ne pas créer un deuxième dossier jepeuxstationner à l'intérieur), accepter le remplacement des fichiers, ouvrir ce dépôt dans Desktop, vérifier les changements, saisir un résumé, cliquer **Commit to main**, puis **Push origin**. Conserver votre dossier `.git` et votre `.env`.
+
+Ouvrir Actions et attendre le workflow principal PostgreSQL/PostGIS. Il exécutera également les nouveaux tests géocodage hors réseau. Ensuite, lancer facultativement **Geocoding live - manual only → Run workflow** pour refaire les cinq contrôles officiels depuis GitHub. Renvoyer les archives de résultats et le lien d'exécution ; les timeouts rencontrés depuis Work ne prouvent pas une panne générale de l'API.
+
+La configuration du géocodage est ajoutée à `.env.example`. Le cache de résultats dure 24 h (500 entrées maximum), les résultats vides 30 s, les erreurs ne sont pas cachées. Débit par défaut 5/s dans un processus ; plusieurs réplicas nécessiteront un budget commun. Voir GEOCODING.md pour les limites et toutes les variables.
+
+# Historique et validation PostgreSQL/PostGIS
+
+Socle PHASE 0/0.5. Sa CI verte est confirmée par l'utilisateur dans le brief PHASE 1. Le code géocodage actuel doit encore repasser cette CI.
+
+```text
+PHASE 0/0.5: validated according to user's GitHub Actions confirmation.
+Current revision: GitHub Actions revalidation pending.
 ```
 
 ## Architecture conservée
 
-Monorepo npm workspaces, Node.js 24, TypeScript strict, PostgreSQL 17/PostGIS 3.5. Le moteur reste pur, sans dépendance SQL. `pg` et ses types servent à la validation et à la lecture des fixtures ; aucun fournisseur officiel n'est branché. Voir ARCHITECTURE.md et DECISIONS.md.
+Monorepo npm workspaces, Node.js 24, TypeScript strict, PostgreSQL 17/PostGIS 3.5. Le moteur reste pur, sans dépendance SQL. `pg` et ses types servent à la validation et à la lecture des fixtures ; aucun fournisseur officiel de stationnement n'est branché. Voir ARCHITECTURE.md et DECISIONS.md.
 
 Les sources disponibles de la spécification sont les instructions du projet et les demandes PHASE 0/0.5. Aucune règle réelle n'est inventée. Une couverture absente, périmée ou un conflit officiel donnent UNKNOWN. Les périodes sont explicites et les décisions traçables. Aucune recherche personnelle n'est conservée.
 

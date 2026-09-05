@@ -47,7 +47,7 @@ jobs:
         run: npm run db:explain 2>&1 | tee artifacts/explain.log
       - name: TypeScript strict
         run: npm run typecheck 2>&1 | tee artifacts/typecheck.log
-      - name: Unit tests
+      - name: Unit tests including offline geocoding
         run: npm test 2>&1 | tee artifacts/unit-tests.log
       - name: Fictional demo
         run: npm run demo 2>&1 | tee artifacts/demo.log

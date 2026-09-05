@@ -1,6 +1,6 @@
 # Sources de données
 
-Une seule implémentation active : FictionalDataSourceAdapter, id fixture. fixture-city et fixture-curb-a ne représentent aucun lieu réel. fixture://orders/demo-001 n'est pas une source officielle réelle : synthetic=true sur chaque preuve, propagé vers la décision.
+Pour les règles de stationnement, une seule implémentation active : FictionalDataSourceAdapter, id fixture. fixture-city et fixture-curb-a ne représentent aucun lieu réel. fixture://orders/demo-001 n'est pas une source officielle réelle : synthetic=true sur chaque preuve, propagé vers la décision.
 
 DataSourceAdapter.load reçoit ville, zone exacte, début et fin ; retourne un RuleSnapshot avec identité adapter, couverture temporelle et géographique, déclaration complete, preuve de couverture et règles. AbortSignal permet d'annuler les futures opérations. Toute erreur ou expiration du délai fait échouer l'ensemble vers UNKNOWN, sans afficher les erreurs internes.
 
@@ -16,3 +16,12 @@ Les deux périodes de la fixture sont volontairement bornées : le fournisseur n
 packages/database/fixtures/integration.sql introduit une seule ville fictive ci-city pour les tests, avec des sources fixture://ci/... toutes synthetic=true. Les zones servent à tester les cas métier, les bordures, MultiPolygon et ambiguïtés. La ville plan-city est une fixture distincte, uniquement temporaire, de mesure du plan spatial ; cela n'étend pas le MVP à plusieurs villes réelles.
 
 Les fixtures sont insérées dans des transactions annulées et ne sont pas un seed de production. Le pont SQL fait un ST_Covers réel puis charge couverture et règles officielles/secondaires, sans éliminer les données périmées. Les scénarios et attentes sont détaillés dans TEST_MATRIX.md. Aucune API externe connectée.
+
+
+## PHASE 1 — source réelle de géocodage uniquement
+
+Le provider Géoplateforme utilise GET https://data.geopf.fr/geocodage/search et /reverse, index address (BAN). Le contrat officiel https://data.geopf.fr/geocodage/openapi.yaml a été consulté pendant le développement. La limite publiée est de 50 requêtes/s/IP ; l'application vise 5/s/processus par défaut. Les paramètres d'autocomplete sont 0/1 ; depcode est le filtre département pour les adresses.
+
+Ces données localisent des adresses, voies et communes ; elles ne sont jamais injectées comme règles de stationnement ni comme preuves d'autorisation. Source normalisée dans les résultats : geoplateforme-ban. Aucun appel à l'ancienne API dépréciée, aucune donnée de stationnement externe connectée.
+
+Les fixtures HTTP des tests unitaires sont synthétiques. Les tests live consultent cinq lieux publics, sans historique de recherche utilisateur. Leur résultat partiel (trois succès et deux timeouts) figure dans TEST_RESULTS.md ; il ne doit pas être présenté comme cinq succès.

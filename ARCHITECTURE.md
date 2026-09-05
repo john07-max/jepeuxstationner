@@ -34,3 +34,12 @@ La structure existante reste en place. packages/database/src/read-snapshots.ts d
 Le script scripts/db.mjs charge DATABASE_URL, contrôle PostGIS, applique les migrations versionnées et exécute les fixtures SQL. Les scripts npm lisent facultativement .env via Node 24 ; les variables du job GitHub prennent priorité. La base de CI utilise exactement compose.yaml ; sa durée de vie se limite au job.
 
 La migration 002 autorise uniquement une fin de règle non bornée pour représenter une règle permanente. Les preuves de couverture restent finies. Les migrations 001 et 002 restent transactionnelles ; le runner ajoute un verrou de migration et un rejeu sans changement des versions connues.
+
+
+## PHASE 1 — géocodage indépendant
+
+Ajouts dans les packages existants : domain/src/geocoding.ts et adapters/src/geocoding/*.ts. Aucun remplacement de composant de stationnement et aucune migration. Les dépendances sont uniquement celles de la plateforme Node 24 ; aucun package npm ajouté.
+
+Le provider normalise le JSON externe vers GeocodingResult. Son client HTTP concentre tous les appels réseau et partage un limiteur par origine dans le processus. GeocodingCache est un port remplaçable, implémenté en RAM ; GeocodingProvider est le port consommé par le contrôleur de debounce et la CLI. Le moteur n'importe aucun de ces composants.
+
+Le provider et le cache RAM actuel sont côté serveur Node. L'abstraction consommateur permet de préparer la future interface sans la créer. La conversion coordonnées → zone/côté fiables reste distincte et n'est pas branchée au moteur ici. Voir GEOCODING.md.
