@@ -34,3 +34,9 @@ Le scénario B demandé est permis au début mais nécessite un départ avant un
 Le pont SQL ignore uniquement les règles dont la période ne chevauche pas la requête, mais ne masque jamais une source périmée. Une règle permanente a une fin SQL non bornée ; le moteur reçoit son intersection avec la fenêtre de requête. Il continue à ne manipuler que des périodes finies. La couverture doit elle-même rester complète, fraîche et bornée.
 
 Les tests DB → moteur sont dans tests/integration, séparés des tests locaux. Ils n'ont pas encore été exécutés sur PostgreSQL/PostGIS au moment de cette livraison.
+
+## PHASE 2 — moteur 0.0.3
+
+Snapshot facultatif purpose=RESTRICTIONS : inventaire incomplet accepté exclusivement pour des FORBIDDEN d'origine officielle et de valeur informative. Jamais ALLOWED à partir d'une telle source, même avec complete=true. Les autres snapshots gardent les contraintes historiques de couverture. Conflits, sources périmées et règles non supportées donnent UNKNOWN. Le moteur ignore DATEX ; l'adaptateur filtre la géométrie et borne les périodes.
+
+allowedUntil est un alias de mustLeaveBefore, présent seulement lorsque la durée commence par une permission explicite puis rencontre une interdiction. Une restriction DiaLog future seule conserve UNKNOWN. Voir DIALOG.md pour la qualification du scénario B.

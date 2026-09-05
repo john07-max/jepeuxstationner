@@ -1,0 +1,20 @@
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+
+> jepeuxstationner@0.0.1 test:dialog:live
+> npm run build && node --use-env-proxy --test dist/tests/live/dialog.live.test.js
+
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+
+> jepeuxstationner@0.0.1 build
+> tsc -p tsconfig.json
+
+{"stats":{"fetched":11042,"parsed":11042,"accepted":9675,"ignored":11027,"invalid":0,"bytes":100072501,"durationMs":3976.1241480000026},"memory":{"rss":272490496,"heapTotal":199016448,"heapUsed":96401808,"external":6112961,"arrayBuffers":1848559},"supported":7322}
+✔ official DiaLog HTTP + complete streaming DATEX 3 compatibility (one request) (23666.222023ms)
+ℹ tests 1
+ℹ suites 0
+ℹ pass 1
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 23754.092294

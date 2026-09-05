@@ -100,7 +100,7 @@ try {
    if(command==='reset') {
     // Only project-owned tables/types, never DROP SCHEMA public or extension.
     await c.query(`BEGIN;
-      DROP TABLE IF EXISTS source_coverage,parking_rules,data_sources,parking_zones,cities,schema_migrations;
+      DROP TABLE IF EXISTS imported_parking_rules, source_coverage,parking_rules,data_sources,parking_zones,cities,schema_migrations;
       DROP TYPE IF EXISTS parking_effect,source_authority;
       COMMIT;`);
     await migrate(c);

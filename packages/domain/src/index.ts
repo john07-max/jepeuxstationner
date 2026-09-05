@@ -9,6 +9,10 @@ export interface SourceEvidence {
   readonly id: string;
   readonly adapterId: string;
   readonly reference: string;
+  readonly legalAuthority?: 'informative';
+  readonly notice?: string;
+  readonly retrievedAt?: string;
+  readonly sourceUpdatedAt?: string;
   readonly version: string;
   readonly authority: 'OFFICIAL' | 'SECONDARY';
   readonly kind: 'SIGNAGE' | 'ORDER' | 'DATASET';
@@ -30,6 +34,8 @@ export interface RuleSnapshot extends Period {
   readonly zoneId: string;
   /** An adapter must explicitly attest completeness for this exact scope. */
   readonly complete: boolean;
+  /** A partial inventory can prohibit, never establish permission. */
+  readonly purpose?: 'RESTRICTIONS';
   readonly coverageSource: SourceEvidence;
   readonly rules: readonly ParkingRule[];
 }
@@ -53,5 +59,6 @@ export interface ParkingDecision {
   readonly evidence: readonly SourceEvidence[];
   /** First future prohibition, only when the stay is initially permitted. */
   readonly mustLeaveBefore?: string;
+  readonly allowedUntil?: string;
   readonly notice: string;
 }

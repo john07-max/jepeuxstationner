@@ -51,3 +51,21 @@ Précision ADR-015 : pour un séjour prévu, « initialement » désigne le déb
 Le filtre bounds privilégie le centre puis filtre au plus 50 candidats renvoyés ; il n'est pas exhaustif. Les filtres natifs depcode/citycode/city/postcode sont préférables quand disponibles. Aucun périmètre national n'est converti en couverture nationale du stationnement.
 
 Les logs joints sous docs/validation sont des preuves d'exécution sur exemples publics ou fixtures synthétiques et sont explicitement versionnables. Cette exception au gitignore ne concerne aucun log de recherche utilisateur.
+
+## PHASE 2 — 2026-09-05
+
+| ID | Décision | Justification |
+| --- | --- | --- |
+| ADR-026 | Début PHASE 2 sur confirmation utilisateur | CI PHASE 1 verte selon le brief ; les nouveaux changements restent à revalider. |
+| ADR-027 | Export DATEX 3 public actuel, endpoint fixe | Contrat officiel vérifié, trois filtres explicites ; aucune API de remplacement. |
+| ADR-028 | SAX par arrêté, limites explicites | sax 1.6.1 ; flux réel 100 Mo ; DTD refusés, pas de copies nationales XML. Saxes archivé écarté. |
+| ADR-029 | ImportedParkingRule et projection ParkingRule | Fin nullable persistée, règles du moteur toujours bornées ; pas de DATEX dans le moteur. |
+| ADR-030 | Table additive imported_parking_rules | Géométries individuelles sans transformer les zones historiques ; data_sources réutilisée, migration 003, reset adapté à sa FK. |
+| ADR-031 | Identité composée déterministe | UUID arrêté réel plus empreinte géométrie/début/conditions ; pas d'UUID sous-mesure dans l'export. End/description/status mis à jour, changement structurel crée une nouvelle version logique. |
+| ADR-032 | Restrictions partielles et origine informative | purpose=RESTRICTIONS ne prétend pas à la couverture ; une preuve peut interdire mais jamais autoriser. Scénario B nécessite une permission indépendante explicite. Alias allowedUntil conservant mustLeaveBefore. |
+| ADR-033 | 5 m configurables, ST_DWithin geography | Maximum 15 m ; ST_Covers pour surfaces ; ne garantit pas le côté de rue. Découpage explicite MultiLineString/MultiPoint/collections. |
+| ADR-034 | Récurrences et véhicules non évalués | Métadonnées conservées, supported=false conduit à UNKNOWN ; aucune généralisation d'une exception. |
+| ADR-035 | Import atomique et dry-run READ ONLY | Advisory lock, clé unique, upsert, désactivation logique ; toute erreur tolérée bloque les désactivations, seuil 1 % sinon rollback. |
+| ADR-036 | Fraîcheur récupérée et contrôles séparés | Défaut 24 h ; pas de sourceUpdatedAt fabriquée. XML live manuel, fixtures offline en CI principale et vrai PostgreSQL uniquement sur GitHub. |
+
+Les modèles et choix détaillés, notamment les limites d'identité et le scénario B, sont dans DIALOG.md. Le moteur passe à 0.0.3 pour ces changements ciblés ; les tests des décisions antérieures restent inchangés. Aucune PHASE 3 commencée.

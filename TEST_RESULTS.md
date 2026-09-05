@@ -1,57 +1,46 @@
-# Résultats PHASE 1 — géocodage français
+# TEST_RESULTS — PHASE 2 — 2026-09-05
 
-## Précondition PHASE 0/0.5
-
-Le brief joint par l'utilisateur confirme que les PHASES 0/0.5 sont validées et que leur CI PostgreSQL/PostGIS est entièrement verte. Cette confirmation autorise la PHASE 1. Aucun log de cette exécution GitHub n'a été analysé indépendamment dans ce tour. Le compte rendu Work initial est conservé dans docs/validation/PHASE_0_5_WORK_RESULTS.md.
+Les PHASES 0/0.5/1 sont validées selon la confirmation CI verte fournie par l'utilisateur. Cela n'est pas présenté comme une inspection indépendante des logs GitHub. Le rapport Work historique PHASE 1 est conservé dans docs/validation/PHASE_1_WORK_RESULTS.md.
 
 ## TESTS EXÉCUTÉS DANS L'ENVIRONNEMENT WORK
 
-| Commande / vérification | Résultat observé |
+| Commande / contrôle | Résultat réel final |
 | --- | --- |
-| npm ci | Code 0, installation via lockfile existant, aucune dépendance ajoutée |
-| npm run typecheck | Code 0, TypeScript strict |
-| npm test | Code 0, **143 réussis / 143**, 0 échec, 0 ignoré |
-| npm run demo | Code 0, démonstration de stationnement fictive conservée |
-| Comparaison du moteur, schéma, migrations, tests DB, lockfile, tsconfig | Inchangés par rapport à PHASE 0.5 |
-| Parsing YAML des workflows | Réussi ; CI principale identique hors libellé d'étape |
+| npm ci | code 0, 25 packages installés |
+| npm run typecheck | code 0, TypeScript strict |
+| npm test | code 0 : **187 tests réussis**, 0 échec, 0 ignoré |
+| npm run demo | code 0, décision fictive, moteur 0.0.3 |
+| npm run test:dialog:live | code 0 : **1/1 test réussi**, un seul appel officiel |
+| Relecture du téléchargement officiel avec le parser final | code 0 : 11 042 arrêtés, 9 675 règles, 0 invalide |
 
-Les 143 tests hors réseau comprennent les 50 tests existants et **93 nouveaux tests géocodage**. Ils couvrent recherche, autocomplétion, reverse, validation des réponses et coordonnées, normalisation, cache TTL/LRU, absence de cache d'erreurs, isolation des valeurs, timeout y compris corps lent, retries bornés, 429/Retry-After, débit partagé, annulations et réponses obsolètes.
+Les 187 tests offline se répartissent en 143 tests précédents conservés (dont 93 géocodage) et **44 nouveaux tests DiaLog**. Le géocodage live n'a pas été rejoué pendant la PHASE 2.
 
-Les huit garde-fous de scripts DB existants ne se connectent pas à PostgreSQL. Aucun test SQL/PostGIS n'a été exécuté dans Work pendant cette phase ; aucune installation Docker/PostgreSQL n'a été tentée.
+Le téléchargement d'observation puis le test live constituent deux appels HTTP au total. Export de 100 072 501 octets ; 7 322 règles supportées, les autres explicitement limitées. Le live prend environ 23,7 s (boucle lecture/parsing ~4,0 s), RSS finale 272,5 Mo ; ce n'est pas une mesure garantie de mémoire maximale. La relecture locale du même export avec le parser final prend ~3,0 s et ne fait aucun appel réseau.
 
-Logs locaux : docs/validation/phase1-npm-ci.log, phase1-typecheck.log, phase1-unit-tests.log, phase1-parking-demo.log. Les noms de tests mentionnent uniquement des exemples publics ou des fixtures synthétiques, pas un historique de recherches utilisateur.
+Preuves : docs/validation/phase2-npm-ci.log, phase2-typecheck.log, phase2-unit-tests.log, phase2-demo.log, phase2-dialog-live.log, phase2-captured-feed.log. Le XML national temporaire n'est pas livré ni stocké en base.
 
-## TESTS LIVE RÉELLEMENT EXÉCUTÉS
+Pendant le développement, un test attendait une erreur XML sur une racine déjà rejetée comme SCHEMA ; corrigé pour utiliser un véritable document DATEX tronqué. Les résultats finaux ci-dessus viennent d'une exécution complète après correction. L'avertissement npm sur la configuration http-proxy de Work n'empêche pas l'installation.
 
-Commande `npm run test:geocoding:live`, cinq requêtes officielles, sans mock, aucun retry, timeout 10 s par requête. **Résultat : 3 succès, 2 échecs, code de sortie 1.**
+Les garde-fous de scripts DB inclus dans npm test ne se connectent pas à PostgreSQL et ne sont pas une validation PostGIS.
 
-| Cas | Résultat |
-| --- | --- |
-| Recherche Paris, 1 Place de l'Hôtel de Ville | TIMEOUT après environ 10 s |
-| Recherche Lyon, Place Bellecour | Réussi ; résultat normalisé et coordonnées dans l'emprise de Lyon |
-| Recherche Nantes, 44000 Nantes | TIMEOUT après environ 10 s |
-| Reverse Paris, 48.8566 / 2.3522 | Réussi ; résultat normalisé et coordonnées dans l'emprise de Paris |
-| Autocomplétion Lyon, 12 rue vict | Réussi ; résultat normalisé, limite et emprise respectées |
+## TESTS PRÉPARÉS POUR GITHUB ACTIONS MAIS NON ENCORE EXÉCUTÉS
 
-La suite live n'a pas été rejouée répétitivement pour obtenir du vert. Les timeouts peuvent dépendre du chemin réseau de Work, du proxy ou du fournisseur ; leur cause exacte n'a pas été établie. Ils ne sont ni masqués ni convertis en réponses vides. Logs : docs/validation/phase1-geocoding-live.log.
+- PostgreSQL 17 / PostGIS 3.5 de cette révision, disponibilité réelle de l'extension.
+- Migration additive 003 et rejeu des migrations ; contraintes et index.
+- Tests SQL historiques géospatiaux/temporels.
+- **18 nouveaux tests d'intégration DiaLog réels**, dans un schéma privé créé puis supprimé : XML → parser → PostGIS → requête → ParkingRule → moteur.
+- Scénarios A à E, permanent, idempotence, mise à jour, désactivation, dry-run sans écriture, erreurs partielles, géométrie invalide et rollback, tolérance métrique, coordonnées inversées, bordure ST_Covers, récurrence non supportée, MultiPolygon/SRID.
+- EXPLAIN ANALYZE BUFFERS sur 20 000 lignes supplémentaires DiaLog ; temps d'import et requête à récupérer dans integration.log.
+- Tests d'intégration historiques (19) et EXPLAIN historique 40 000 zones.
+- Workflow CI principal complet après le push et workflow live manuel depuis GitHub.
 
-La commande `npm run demo:geocode -- "10 rue de la Paix Paris"` a aussi été exécutée réellement : compilation réussie, puis code 1 avec message typé TIMEOUT (configuration par défaut 5 s par tentative, retry limité). Aucun résultat d'adresse n'est fabriqué. Log : docs/validation/phase1-geocode-cli.log.
+Bilan des tests ajoutés : **44 offline + 18 PostgreSQL + 1 live = 63**. Suites du dépôt : 187 offline, 37 intégration PostgreSQL, 6 live (5 géocodage + 1 DiaLog), soit **230 tests définis**. Ce total n'est pas un total de tests exécutés dans Work.
 
-93 tests hors réseau et 5 tests live ont été ajoutés, soit 98 tests définis supplémentaires. Les réussites live restent séparées des 143 tests hors réseau ; il n'est pas affirmé que les 148 tests exécutés sont tous verts.
+Inspection statique : Compose conservé, PostgreSQL 17 / PostGIS 3.5 cohérents ; migration 003 additive et enregistrée ; reset adapté ; requête paramétrée EPSG:4326, geography en mètres, ST_Covers sur surfaces ; disponibilité PostGIS explicite conservée dans CI. Cette inspection n'est pas une validation d'exécution SQL.
 
-## CONTRÔLES GITHUB ACTIONS RESTANT À EXÉCUTER SUR CETTE RÉVISION
-
-- Workflow principal : PostgreSQL/PostGIS, migrations, assertions SQL, 19 tests DB → moteur, EXPLAIN, TypeScript et 143 tests hors réseau.
-- Workflow manuel Geocoding live : refaire les cinq contrôles officiels depuis le runner GitHub et examiner leur résultat.
-- Télécharger les artefacts et comparer les résultats à cette livraison.
-
-Les étapes du workflow principal sont conservées ; seul le libellé de l'étape Unit tests précise qu'elle inclut le géocodage hors réseau. Cela préserve sa définition mais ne constitue pas une preuve de réussite runtime de la nouvelle révision.
-
-## Statut
+Aucune installation ni exécution de Docker/PostgreSQL tentée dans Work. La commande sync et son dry-run nécessitent une base et n'ont donc pas été exécutés ici.
 
 ```text
-READY FOR PHASE 2: NO
-Reason: Current revision CI revalidation pending; live geocoding suite has two timeouts.
+READY FOR PHASE 3: NO
+Reason: Phase 2 PostgreSQL/PostGIS integration and GitHub CI validation pending.
 ```
-
-La PHASE 1 est implémentée et testée hors réseau, mais sa validation complète n'est pas revendiquée. Aucune PHASE 2 commencée.

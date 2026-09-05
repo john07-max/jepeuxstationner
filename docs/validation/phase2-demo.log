@@ -1,0 +1,56 @@
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+
+> jepeuxstationner@0.0.1 demo
+> npm run build && node dist/apps/demo/src/index.js
+
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+
+> jepeuxstationner@0.0.1 build
+> tsc -p tsconfig.json
+
+{
+  "status": "ALLOWED",
+  "reasons": [
+    "EXPLICIT_OFFICIAL_RULE"
+  ],
+  "segments": [
+    {
+      "start": "2026-09-05T12:00:00.000Z",
+      "end": "2026-09-05T14:00:00.000Z",
+      "status": "ALLOWED",
+      "reason": "EXPLICIT_OFFICIAL_RULE",
+      "ruleIds": [
+        "fixture:fixture-allow"
+      ],
+      "conditions": []
+    }
+  ],
+  "evidence": [
+    {
+      "id": "fixture-order",
+      "adapterId": "fixture",
+      "reference": "fixture://orders/demo-001",
+      "version": "1",
+      "authority": "OFFICIAL",
+      "kind": "ORDER",
+      "synthetic": true,
+      "observedAt": "2026-09-01T00:00:00Z",
+      "freshUntil": "2026-10-01T00:00:00Z"
+    },
+    {
+      "id": "fixture-order",
+      "adapterId": "fixture",
+      "reference": "fixture://orders/demo-001",
+      "version": "1",
+      "authority": "OFFICIAL",
+      "kind": "ORDER",
+      "synthetic": true,
+      "observedAt": "2026-09-01T00:00:00Z",
+      "freshUntil": "2026-10-01T00:00:00Z"
+    }
+  ],
+  "evaluatedAt": "2026-09-05T10:00:00Z",
+  "engineVersion": "0.0.3",
+  "synthetic": true,
+  "notice": "Résultat indicatif. La signalisation sur place et les arrêtés officiels prévalent."
+}

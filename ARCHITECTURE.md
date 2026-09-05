@@ -43,3 +43,7 @@ Ajouts dans les packages existants : domain/src/geocoding.ts et adapters/src/geo
 Le provider normalise le JSON externe vers GeocodingResult. Son client HTTP concentre tous les appels réseau et partage un limiteur par origine dans le processus. GeocodingCache est un port remplaçable, implémenté en RAM ; GeocodingProvider est le port consommé par le contrôleur de debounce et la CLI. Le moteur n'importe aucun de ces composants.
 
 Le provider et le cache RAM actuel sont côté serveur Node. L'abstraction consommateur permet de préparer la future interface sans la créer. La conversion coordonnées → zone/côté fiables reste distincte et n'est pas branchée au moteur ici. Voir GEOCODING.md.
+
+## Extension PHASE 2
+
+Les packages existants sont conservés. `adapters/src/dialog` centralise transport XML, parser et DataSourceAdapter ; `domain/src/imported-rule.ts` représente une restriction persistable indépendante du fournisseur ; `database/src/dialog.ts` réalise transaction, lecture PostGIS et projection. Migration additive 003, requête dialog-at-position.sql, CLI sync-dialog. Pas de dépendance SQL/XML ajoutée au moteur. Voir DIALOG.md et ADR-026 à 036.

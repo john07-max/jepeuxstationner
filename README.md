@@ -1,10 +1,10 @@
-# JePeuxStationner — PHASE 1 : géocodage français
+# JePeuxStationner — PHASE 2 : restrictions DiaLog
 
-Le géocodage Géoplateforme/BAN est implémenté avec recherche, autocomplétion et reverse, types indépendants, cache RAM, débit limité, timeout, retries bornés et erreurs typées. Le moteur de stationnement et la base de PHASE 0.5 restent inchangés. Aucune donnée de stationnement réelle n'est connectée.
+Le flux officiel DATEX II 3 est connecté : parsing en flux, normalisation, import transactionnel PostGIS et adaptateur vers le moteur. Le géocodage PHASE 1 est conservé. Voir [DIALOG.md](DIALOG.md), [TEST_RESULTS.md](TEST_RESULTS.md) et [DELIVERY_PHASE_2.md](DELIVERY_PHASE_2.md).
 
 ```text
-READY FOR PHASE 2: NO
-Reason: Current revision CI revalidation pending; live geocoding suite has two timeouts.
+READY FOR PHASE 3: NO
+Reason: Phase 2 PostgreSQL/PostGIS integration and GitHub CI validation pending.
 ```
 
 ## Essayer le géocodage
@@ -30,19 +30,19 @@ Remplacer les fichiers de votre copie locale par ceux de cette livraison, en con
 
 ```bash
 git add .
-git commit -m "Add Phase 1 French geocoding"
+git commit -m "Add Phase 2 DiaLog restrictions"
 git push
 ```
 
 Avec **GitHub Desktop** : copier le contenu du dossier extrait dans votre dossier local existant (ne pas créer un deuxième dossier jepeuxstationner à l'intérieur), accepter le remplacement des fichiers, ouvrir ce dépôt dans Desktop, vérifier les changements, saisir un résumé, cliquer **Commit to main**, puis **Push origin**. Conserver votre dossier `.git` et votre `.env`.
 
-Ouvrir Actions et attendre le workflow principal PostgreSQL/PostGIS. Il exécutera également les nouveaux tests géocodage hors réseau. Ensuite, lancer facultativement **Geocoding live - manual only → Run workflow** pour refaire les cinq contrôles officiels depuis GitHub. Renvoyer les archives de résultats et le lien d'exécution ; les timeouts rencontrés depuis Work ne prouvent pas une panne générale de l'API.
+Ouvrir Actions et attendre le workflow principal PostgreSQL/PostGIS. Il exécutera aussi les tests DiaLog hors réseau et les 18 nouveaux tests PostgreSQL DiaLog. Lancer **DiaLog live (manual) → Run workflow** pour le contrôle officiel séparé. Ensuite, lancer facultativement **Geocoding live - manual only → Run workflow** pour refaire les cinq contrôles officiels depuis GitHub. Renvoyer les archives de résultats et le lien d'exécution ; les timeouts rencontrés depuis Work ne prouvent pas une panne générale de l'API.
 
 La configuration du géocodage est ajoutée à `.env.example`. Le cache de résultats dure 24 h (500 entrées maximum), les résultats vides 30 s, les erreurs ne sont pas cachées. Débit par défaut 5/s dans un processus ; plusieurs réplicas nécessiteront un budget commun. Voir GEOCODING.md pour les limites et toutes les variables.
 
 # Historique et validation PostgreSQL/PostGIS
 
-Socle PHASE 0/0.5. Sa CI verte est confirmée par l'utilisateur dans le brief PHASE 1. Le code géocodage actuel doit encore repasser cette CI.
+Les CI PHASES 0/0.5/1 sont confirmées vertes par l'utilisateur dans le brief PHASE 2. Les changements DiaLog restent à revalider.
 
 ```text
 PHASE 0/0.5: validated according to user's GitHub Actions confirmation.
@@ -51,7 +51,7 @@ Current revision: GitHub Actions revalidation pending.
 
 ## Architecture conservée
 
-Monorepo npm workspaces, Node.js 24, TypeScript strict, PostgreSQL 17/PostGIS 3.5. Le moteur reste pur, sans dépendance SQL. `pg` et ses types servent à la validation et à la lecture des fixtures ; aucun fournisseur officiel de stationnement n'est branché. Voir ARCHITECTURE.md et DECISIONS.md.
+Monorepo npm workspaces, Node.js 24, TypeScript strict, PostgreSQL 17/PostGIS 3.5. Le moteur reste pur, sans dépendance SQL. `pg` et ses types servent à la validation et à la lecture des fixtures ; DiaLog est désormais connecté via une extension additive. Voir ARCHITECTURE.md et DECISIONS.md.
 
 Les sources disponibles de la spécification sont les instructions du projet et les demandes PHASE 0/0.5. Aucune règle réelle n'est inventée. Une couverture absente, périmée ou un conflit officiel donnent UNKNOWN. Les périodes sont explicites et les décisions traçables. Aucune recherche personnelle n'est conservée.
 
@@ -122,7 +122,7 @@ Aucune installation de PostgreSQL n'est nécessaire sur votre ordinateur pour ce
 ```bash
 git init
 git add .
-git commit -m "Prepare Phase 0.5 PostGIS validation"
+git commit -m "Add Phase 2 DiaLog validation"
 git branch -M main
 git remote add origin https://github.com/VOTRE-COMPTE/jepeuxstationner.git
 git push -u origin main
@@ -130,9 +130,9 @@ git push -u origin main
 
 Si Git demande votre identité, définir `git config user.name "Votre nom"` et `git config user.email "Votre email GitHub"`, puis reprendre à `git commit`. S'authentifier via le navigateur si Git le propose. Ne pas coller de mot de passe ou de jeton dans le code du projet. Si vous utilisez un dépôt existant avec origin déjà défini, vérifier `git remote -v` et réutiliser la bonne URL au lieu de recréer origin.
 
-5. **Ouvrir Actions.** Sur la page du dépôt, cliquer l'onglet **Actions**. Un workflow nommé **Phase 0.5 - PostgreSQL PostGIS** doit démarrer automatiquement après le push. Si GitHub propose d'activer les workflows, les activer. Le workflow se lance également à chaque pull request.
+5. **Ouvrir Actions.** Sur la page du dépôt, cliquer l'onglet **Actions**. Un workflow nommé **CI - PostGIS geocoding DiaLog** doit démarrer automatiquement après le push. Si GitHub propose d'activer les workflows, les activer. Le workflow se lance également à chaque pull request.
 6. **Lancer manuellement si nécessaire.** Dans Actions, cliquer le nom du workflow à gauche, puis **Run workflow**, sélectionner `main`, puis confirmer **Run workflow**. Le fichier doit être présent sur la branche par défaut pour voir ce bouton.
-7. **Ouvrir le job** `PostgreSQL 17 / PostGIS 3.5 validation`. Vérifier spécialement les étapes « Verify installed PostGIS extension and version », « Apply migrations 001 and 002 », « SQL and PostGIS tests », « Real database to engine integration A B C » et « Spatial query EXPLAIN ANALYZE BUFFERS ».
+7. **Ouvrir le job** `PostgreSQL 17 / PostGIS 3.5 validation`. Vérifier spécialement les étapes « Verify installed PostGIS extension and version », « Apply all migrations including DiaLog », « SQL and PostGIS tests », « Real database integrations including DiaLog XML to engine » et « Spatial query EXPLAIN ANALYZE BUFFERS ».
 8. **Reconnaître le succès.** L'exécution complète et toutes les étapes de validation doivent être vertes. Une exécution en cours, annulée, rouge ou une étape DB ignorée n'est pas une validation réussie. Les logs doivent montrer une version PostGIS réelle et les résultats des tests. Le statut de ce dépôt reste en attente jusqu'à examen de cette preuve.
 9. **Récupérer les résultats.** Revenir au résumé de l'exécution ; dans **Artifacts**, télécharger `postgis-validation-<numéro>`. Il contient les logs et `spatial-plan.json`. Les fichiers restent disponibles 14 jours. Vous pouvez aussi utiliser « Download log archive » dans le menu de l'exécution.
 
@@ -147,10 +147,10 @@ Le simple badge vert sans logs ne suffit pas à examiner les résultats géospat
 
 ### Badge CI
 
-L'URL du dépôt n'est pas encore connue : aucun badge réel n'est inventé. Après création, remplacer VOTRE-COMPTE et VOTRE-DEPOT dans cette ligne puis la placer en haut du README :
+Badge du dépôt GitHub communiqué :
 
 ```markdown
-[![CI PostGIS](https://github.com/VOTRE-COMPTE/VOTRE-DEPOT/actions/workflows/ci.yml/badge.svg)](https://github.com/VOTRE-COMPTE/VOTRE-DEPOT/actions/workflows/ci.yml)
+[![CI PostGIS](https://github.com/john07-max/jepeuxstationner/actions/workflows/ci.yml/badge.svg)](https://github.com/john07-max/jepeuxstationner/actions/workflows/ci.yml)
 ```
 
 ## Structure et pièces de validation
@@ -183,3 +183,15 @@ compose.yaml / .env.example / tsconfig.json / package.json / package-lock.json
 Les neuf documents de référence restent présents. TEST_RESULTS.md sépare exécution locale et préparation CI ; TEST_MATRIX.md décrit les cas ; STATIC_DB_REVIEW.md contient uniquement une revue statique ; DELIVERY_PHASE_0_5.md inventorie les changements.
 
 Références techniques : [image du projet PostGIS](https://github.com/postgis/docker-postgis), [requêtes paramétrées node-postgres](https://node-postgres.com/features/queries), [artefacts GitHub Actions](https://docs.github.com/en/actions/tutorials/store-and-share-data).
+
+## Utiliser DiaLog
+
+```bash
+npm run test:dialog
+npm run test:dialog:live
+# Base PostgreSQL/PostGIS migrée nécessaire, y compris pour dry-run :
+npm run sync:dialog -- --dry-run
+npm run sync:dialog
+```
+
+Copier les variables DIALOG de `.env.example` si des limites personnalisées sont nécessaires. Aucun secret DiaLog. Aucun import live dans la CI principale. Le plan spatial DiaLog, les compteurs d'import et les scénarios A–E se trouvent dans integration.log. Ne pas lancer PostgreSQL/Docker dans Work ; utiliser GitHub Actions comme prévu.

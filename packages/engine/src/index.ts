@@ -1,5 +1,5 @@
 import type { DataSourceAdapter, ParkingDecision, ParkingQuery, RuleSnapshot, SourceEvidence, DecisionSegment } from '../../domain/src/index.js';
-export const ENGINE_VERSION = '0.0.2';
+export const ENGINE_VERSION = '0.0.3';
 const notice = 'Résultat indicatif. La signalisation sur place et les arrêtés officiels prévalent.';
 // Require an explicit offset; never interpret the host machine timezone.
 export function instant(value: string): number {
@@ -20,7 +20,7 @@ export class ParkingDecisionEngine {
     const now = instant(evaluatedAt);
     const result = (status: ParkingDecision['status'], reasons: string[], segments: DecisionSegment[] = [], evidence: SourceEvidence[] = []): ParkingDecision => ({
       status, reasons, segments, evidence, evaluatedAt, engineVersion: ENGINE_VERSION,
-      synthetic: evidence.some(s => s.synthetic), notice,
+      synthetic: evidence.some(s => s.synthetic), notice: [...new Set([notice,...evidence.flatMap(s=>s.notice?[s.notice]:[])])].join(' '),
     });
     if (!query.cityId || !query.zoneId || !interval(query.start, query.end) || !Number.isFinite(now)) return result('UNKNOWN', ['INVALID_QUERY']);
     if (!snapshots.length) return result('UNKNOWN', ['NO_DATA']);
@@ -30,13 +30,14 @@ export class ParkingDecisionEngine {
       if (ids.has(s.adapterId)) return result('UNKNOWN', ['DUPLICATE_ADAPTER'], [], evidence);
       ids.add(s.adapterId);
       const ruleIds = new Set<string>();
-      if (!s.adapterId || s.cityId !== query.cityId || s.zoneId !== query.zoneId || !s.complete ||
+      if (!s.adapterId || s.cityId !== query.cityId || s.zoneId !== query.zoneId || (!s.complete && s.purpose !== 'RESTRICTIONS') ||
           !interval(s.start,s.end) || instant(s.start) > instant(query.start) || instant(s.end) < instant(query.end) ||
           !validSource(s.coverageSource,s.adapterId,now) || s.coverageSource.authority !== 'OFFICIAL') return result('UNKNOWN', ['INCOMPLETE_OR_STALE_COVERAGE'], [], evidence);
       for (const r of s.rules) {
         if (!r.id || ruleIds.has(r.id) || r.cityId !== query.cityId || r.zoneId !== query.zoneId || !interval(r.start,r.end) ||
-            !validSource(r.source,s.adapterId,now) || !['ALLOWED','FORBIDDEN','CONDITIONAL'].includes(r.effect) ||
+            !validSource(r.source,s.adapterId,now) || (r.source.legalAuthority === 'informative' && r.effect !== 'FORBIDDEN') || !['ALLOWED','FORBIDDEN','CONDITIONAL'].includes(r.effect) ||
             (r.effect === 'CONDITIONAL' ? !r.conditions.length || r.conditions.some(c => !c.trim()) : r.conditions.length !== 0)) return result('UNKNOWN', ['INVALID_OR_STALE_RULE'], [], evidence);
+        if (s.purpose === 'RESTRICTIONS' && (r.effect !== 'FORBIDDEN' || r.source.legalAuthority !== 'informative')) return result('UNKNOWN',['INVALID_RESTRICTION_SNAPSHOT'],[],evidence);
         ruleIds.add(r.id);
       }
     }
@@ -64,7 +65,7 @@ export class ParkingDecisionEngine {
     const reasons=[...new Set(segments.map(s=>s.reason))];
     if(status==='CONDITIONAL' && firstForbidden) {
       reasons.push('FUTURE_PROHIBITION_MUST_LEAVE');
-      return {...result(status,reasons,segments,evidence),mustLeaveBefore:firstForbidden.start};
+      return {...result(status,reasons,segments,evidence),mustLeaveBefore:firstForbidden.start,allowedUntil:firstForbidden.start};
     }
     return result(status,reasons,segments,evidence);
   }

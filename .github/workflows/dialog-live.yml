@@ -1,0 +1,26 @@
+name: DiaLog live (manual)
+on:
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  live:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    defaults:
+      run:
+        shell: bash
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+          cache: npm
+      - run: npm ci
+      - run: mkdir -p artifacts
+      - run: npm run test:dialog:live 2>&1 | tee artifacts/dialog-live.log
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: dialog-live-${{ github.run_id }}
+          path: artifacts/

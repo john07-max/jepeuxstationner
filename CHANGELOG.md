@@ -21,3 +21,7 @@ Pendant la validation locale, le test lançant un sous-processus node --test hé
 Ajout de GeocodingProvider, types normalisés, coordonnées et erreurs typées ; adapter Géoplateforme search/autocomplete/reverse ; cache mémoire TTL/LRU ; transport unique avec timeout, retry borné et cooldown partagé pour 429 ; debounce annulable ; démonstration CLI ; tests hors réseau et suite live manuelle.
 
 Architecture stationnement, moteur 0.0.2, migrations et tests DB conservés. Aucune dépendance npm supplémentaire. Documentation fournisseur, confidentialité et commandes ajoutée. Tests live exécutés réellement avec succès partiel, timeouts conservés dans les résultats. La PHASE 2 n'est pas commencée.
+
+## PHASE 2 — 2026-09-05
+
+Ajout du flux officiel DiaLog DATEX 3, parser SAX sécurisé, normalisation des interdictions, stockage PostGIS transactionnel idempotent, dry-run réel et adaptateur database → moteur. Contrat de restrictions informatives partielles et alias allowedUntil. Fixtures, tests offline, intégration SQL réelle préparée, workflow live séparé, métriques et documentation DIALOG.md. Phase 1 conservée. Validation PostGIS de cette révision en attente ; PHASE 3 non commencée.
