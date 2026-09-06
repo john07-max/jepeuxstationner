@@ -1,0 +1,559 @@
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+
+> jepeuxstationner@0.0.1 test:e2e
+> playwright test
+
+[WebServer] (node:119) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 21 tests using 1 worker
+
+(node:127) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘   1 tests/e2e/parking.spec.ts:6:1 › principal: address -> four hours -> forbidden -> three parkings (5ms)
+(node:139) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘   2 tests/e2e/parking.spec.ts:7:1 › conditional: future deadline is visible and preserved (5ms)
+(node:151) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘   3 tests/e2e/parking.spec.ts:8:1 › allowed remains separate from payment (6ms)
+(node:163) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘   4 tests/e2e/parking.spec.ts:9:1 › unknown is a safe explicit result, with alternatives (5ms)
+(node:175) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘   5 tests/e2e/parking.spec.ts:10:1 › service failure is an error, not business UNKNOWN (4ms)
+(node:187) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘   6 tests/e2e/parking.spec.ts:11:1 › outside Lyon explains pilot scope (8ms)
+(node:199) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘   7 tests/e2e/parking.spec.ts:12:1 › autocomplete minimum, keyboard and selected coordinates, two hours (4ms)
+(node:211) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘   8 tests/e2e/parking.spec.ts:13:1 › typing after selection invalidates result and selected address (5ms)
+(node:223) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘   9 tests/e2e/parking.spec.ts:14:1 › geolocation requested only after click; rejected permission stays usable (9ms)
+(node:235) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  10 tests/e2e/parking.spec.ts:15:1 › geolocation reverse keeps exact GPS position (5ms)
+(node:247) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  11 tests/e2e/parking.spec.ts:16:1 › map is lazy and renders locally after text result (5ms)
+(node:259) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  12 tests/e2e/parking.spec.ts:17:47 › responsive 320px: no horizontal overflow and comfortable controls (5ms)
+(node:271) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  13 tests/e2e/parking.spec.ts:17:47 › responsive 375px: no horizontal overflow and comfortable controls (5ms)
+(node:283) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  14 tests/e2e/parking.spec.ts:17:47 › responsive 390px: no horizontal overflow and comfortable controls (5ms)
+(node:295) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  15 tests/e2e/parking.spec.ts:17:47 › responsive 430px: no horizontal overflow and comfortable controls (4ms)
+(node:307) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  16 tests/e2e/parking.spec.ts:17:47 › responsive 768px: no horizontal overflow and comfortable controls (5ms)
+(node:319) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  17 tests/e2e/parking.spec.ts:17:47 › responsive 1280px: no horizontal overflow and comfortable controls (5ms)
+(node:331) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  18 tests/e2e/parking.spec.ts:18:71 › information page /sources (5ms)
+(node:343) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  19 tests/e2e/parking.spec.ts:18:71 › information page /confidentialite (5ms)
+(node:355) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  20 tests/e2e/parking.spec.ts:18:71 › information page /mentions-legales (5ms)
+(node:367) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  21 tests/e2e/parking.spec.ts:20:1 › map chunk failure preserves the authorization text (5ms)
+
+
+  1) tests/e2e/parking.spec.ts:6:1 › principal: address -> four hours -> forbidden -> three parkings 
+
+    Error: browserType.launch: Executable doesn't exist at /root/.cache/ms-playwright/chromium_headless_shell-1243/chrome-headless-shell-linux64/chrome-headless-shell
+    ╔════════════════════════════════════════════════════════════╗
+    ║ Looks like Playwright was just installed or updated.       ║
+    ║ Please run the following command to download new browsers: ║
+    ║                                                            ║
+    ║     npx playwright install                                 ║
+    ║                                                            ║
+    ║ <3 Playwright Team                                         ║
+    ╚════════════════════════════════════════════════════════════╝
+
+    Error Context: artifacts/playwright-results/parking-principal-address--eb044--forbidden---three-parkings/error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    artifacts/playwright-results/parking-principal-address--eb044--forbidden---three-parkings/trace.zip
+    Usage:
+
+        npx playwright show-trace artifacts/playwright-results/parking-principal-address--eb044--forbidden---three-parkings/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  2) tests/e2e/parking.spec.ts:7:1 › conditional: future deadline is visible and preserved ─────────
+
+    Error: browserType.launch: Executable doesn't exist at /root/.cache/ms-playwright/chromium_headless_shell-1243/chrome-headless-shell-linux64/chrome-headless-shell
+    ╔════════════════════════════════════════════════════════════╗
+    ║ Looks like Playwright was just installed or updated.       ║
+    ║ Please run the following command to download new browsers: ║
+    ║                                                            ║
+    ║     npx playwright install                                 ║
+    ║                                                            ║
+    ║ <3 Playwright Team                                         ║
+    ╚════════════════════════════════════════════════════════════╝
+
+    Error Context: artifacts/playwright-results/parking-conditional-future-deadline-is-visible-and-preserved/error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    artifacts/playwright-results/parking-conditional-future-deadline-is-visible-and-preserved/trace.zip
+    Usage:
+
+        npx playwright show-trace artifacts/playwright-results/parking-conditional-future-deadline-is-visible-and-preserved/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  3) tests/e2e/parking.spec.ts:8:1 › allowed remains separate from payment ─────────────────────────
+
+    Error: browserType.launch: Executable doesn't exist at /root/.cache/ms-playwright/chromium_headless_shell-1243/chrome-headless-shell-linux64/chrome-headless-shell
+    ╔════════════════════════════════════════════════════════════╗
+    ║ Looks like Playwright was just installed or updated.       ║
+    ║ Please run the following command to download new browsers: ║
+    ║                                                            ║
+    ║     npx playwright install                                 ║
+    ║                                                            ║
+    ║ <3 Playwright Team                                         ║
+    ╚════════════════════════════════════════════════════════════╝
+
+    Error Context: artifacts/playwright-results/parking-allowed-remains-separate-from-payment/error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    artifacts/playwright-results/parking-allowed-remains-separate-from-payment/trace.zip
+    Usage:
+
+        npx playwright show-trace artifacts/playwright-results/parking-allowed-remains-separate-from-payment/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  4) tests/e2e/parking.spec.ts:9:1 › unknown is a safe explicit result, with alternatives ──────────
+
+    Error: browserType.launch: Executable doesn't exist at /root/.cache/ms-playwright/chromium_headless_shell-1243/chrome-headless-shell-linux64/chrome-headless-shell
+    ╔════════════════════════════════════════════════════════════╗
+    ║ Looks like Playwright was just installed or updated.       ║
+    ║ Please run the following command to download new browsers: ║
+    ║                                                            ║
+    ║     npx playwright install                                 ║
+    ║                                                            ║
+    ║ <3 Playwright Team                                         ║
+    ╚════════════════════════════════════════════════════════════╝
+
+    Error Context: artifacts/playwright-results/parking-unknown-is-a-safe-explicit-result-with-alternatives/error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    artifacts/playwright-results/parking-unknown-is-a-safe-explicit-result-with-alternatives/trace.zip
+    Usage:
+
+        npx playwright show-trace artifacts/playwright-results/parking-unknown-is-a-safe-explicit-result-with-alternatives/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  5) tests/e2e/parking.spec.ts:10:1 › service failure is an error, not business UNKNOWN ────────────
+
+    Error: browserType.launch: Executable doesn't exist at /root/.cache/ms-playwright/chromium_headless_shell-1243/chrome-headless-shell-linux64/chrome-headless-shell
+    ╔════════════════════════════════════════════════════════════╗
+    ║ Looks like Playwright was just installed or updated.       ║
+    ║ Please run the following command to download new browsers: ║
+    ║                                                            ║
+    ║     npx playwright install                                 ║
+    ║                                                            ║
+    ║ <3 Playwright Team                                         ║
+    ╚════════════════════════════════════════════════════════════╝
+
+    Error Context: artifacts/playwright-results/parking-service-failure-is-an-error-not-business-UNKNOWN/error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    artifacts/playwright-results/parking-service-failure-is-an-error-not-business-UNKNOWN/trace.zip
+    Usage:
+
+        npx playwright show-trace artifacts/playwright-results/parking-service-failure-is-an-error-not-business-UNKNOWN/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  6) tests/e2e/parking.spec.ts:11:1 › outside Lyon explains pilot scope ────────────────────────────
+
+    Error: browserType.launch: Executable doesn't exist at /root/.cache/ms-playwright/chromium_headless_shell-1243/chrome-headless-shell-linux64/chrome-headless-shell
+    ╔════════════════════════════════════════════════════════════╗
+    ║ Looks like Playwright was just installed or updated.       ║
+    ║ Please run the following command to download new browsers: ║
+    ║                                                            ║
+    ║     npx playwright install                                 ║
+    ║                                                            ║
+    ║ <3 Playwright Team                                         ║
+    ╚════════════════════════════════════════════════════════════╝
+
+    Error Context: artifacts/playwright-results/parking-outside-Lyon-explains-pilot-scope/error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    artifacts/playwright-results/parking-outside-Lyon-explains-pilot-scope/trace.zip
+    Usage:
+
+        npx playwright show-trace artifacts/playwright-results/parking-outside-Lyon-explains-pilot-scope/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  7) tests/e2e/parking.spec.ts:12:1 › autocomplete minimum, keyboard and selected coordinates, two hours 
+
+    Error: browserType.launch: Executable doesn't exist at /root/.cache/ms-playwright/chromium_headless_shell-1243/chrome-headless-shell-linux64/chrome-headless-shell
+    ╔════════════════════════════════════════════════════════════╗
+    ║ Looks like Playwright was just installed or updated.       ║
+    ║ Please run the following command to download new browsers: ║
+    ║                                                            ║
+    ║     npx playwright install                                 ║
+    ║                                                            ║
+    ║ <3 Playwright Team                                         ║
+    ╚════════════════════════════════════════════════════════════╝
+
+    Error Context: artifacts/playwright-results/parking-autocomplete-minim-b7cb1-ected-coordinates-two-hours/error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    artifacts/playwright-results/parking-autocomplete-minim-b7cb1-ected-coordinates-two-hours/trace.zip
+    Usage:
+
+        npx playwright show-trace artifacts/playwright-results/parking-autocomplete-minim-b7cb1-ected-coordinates-two-hours/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  8) tests/e2e/parking.spec.ts:13:1 › typing after selection invalidates result and selected address 
+
+    Error: browserType.launch: Executable doesn't exist at /root/.cache/ms-playwright/chromium_headless_shell-1243/chrome-headless-shell-linux64/chrome-headless-shell
+    ╔════════════════════════════════════════════════════════════╗
+    ║ Looks like Playwright was just installed or updated.       ║
+    ║ Please run the following command to download new browsers: ║
+    ║                                                            ║
+    ║     npx playwright install                                 ║
+    ║                                                            ║
+    ║ <3 Playwright Team                                         ║
+    ╚════════════════════════════════════════════════════════════╝
+
+    Error Context: artifacts/playwright-results/parking-typing-after-selec-4f404-result-and-selected-address/error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    artifacts/playwright-results/parking-typing-after-selec-4f404-result-and-selected-address/trace.zip
+    Usage:
+
+        npx playwright show-trace artifacts/playwright-results/parking-typing-after-selec-4f404-result-and-selected-address/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  9) tests/e2e/parking.spec.ts:14:1 › geolocation requested only after click; rejected permission stays usable 
+
+    Error: browserType.launch: Executable doesn't exist at /root/.cache/ms-playwright/chromium_headless_shell-1243/chrome-headless-shell-linux64/chrome-headless-shell
+    ╔════════════════════════════════════════════════════════════╗
+    ║ Looks like Playwright was just installed or updated.       ║
+    ║ Please run the following command to download new browsers: ║
+    ║                                                            ║
+    ║     npx playwright install                                 ║
+    ║                                                            ║
+    ║ <3 Playwright Team                                         ║
+    ╚════════════════════════════════════════════════════════════╝
+
+    Error Context: artifacts/playwright-results/parking-geolocation-reques-37c09-ted-permission-stays-usable/error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    artifacts/playwright-results/parking-geolocation-reques-37c09-ted-permission-stays-usable/trace.zip
+    Usage:
+
+        npx playwright show-trace artifacts/playwright-results/parking-geolocation-reques-37c09-ted-permission-stays-usable/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  10) tests/e2e/parking.spec.ts:15:1 › geolocation reverse keeps exact GPS position ────────────────
+
+    Error: browserType.launch: Executable doesn't exist at /root/.cache/ms-playwright/chromium_headless_shell-1243/chrome-headless-shell-linux64/chrome-headless-shell
+    ╔════════════════════════════════════════════════════════════╗
+    ║ Looks like Playwright was just installed or updated.       ║
+    ║ Please run the following command to download new browsers: ║
+    ║                                                            ║
+    ║     npx playwright install                                 ║
+    ║                                                            ║
+    ║ <3 Playwright Team                                         ║
+    ╚════════════════════════════════════════════════════════════╝
+
+    Error Context: artifacts/playwright-results/parking-geolocation-reverse-keeps-exact-GPS-position/error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    artifacts/playwright-results/parking-geolocation-reverse-keeps-exact-GPS-position/trace.zip
+    Usage:
+
+        npx playwright show-trace artifacts/playwright-results/parking-geolocation-reverse-keeps-exact-GPS-position/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  11) tests/e2e/parking.spec.ts:16:1 › map is lazy and renders locally after text result ───────────
+
+    Error: browserType.launch: Executable doesn't exist at /root/.cache/ms-playwright/chromium_headless_shell-1243/chrome-headless-shell-linux64/chrome-headless-shell
+    ╔════════════════════════════════════════════════════════════╗
+    ║ Looks like Playwright was just installed or updated.       ║
+    ║ Please run the following command to download new browsers: ║
+    ║                                                            ║
+    ║     npx playwright install                                 ║
+    ║                                                            ║
+    ║ <3 Playwright Team                                         ║
+    ╚════════════════════════════════════════════════════════════╝
+
+    Error Context: artifacts/playwright-results/parking-map-is-lazy-and-renders-locally-after-text-result/error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    artifacts/playwright-results/parking-map-is-lazy-and-renders-locally-after-text-result/trace.zip
+    Usage:
+
+        npx playwright show-trace artifacts/playwright-results/parking-map-is-lazy-and-renders-locally-after-text-result/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  12) tests/e2e/parking.spec.ts:17:47 › responsive 320px: no horizontal overflow and comfortable controls 
+
+    Error: browserType.launch: Executable doesn't exist at /root/.cache/ms-playwright/chromium_headless_shell-1243/chrome-headless-shell-linux64/chrome-headless-shell
+    ╔════════════════════════════════════════════════════════════╗
+    ║ Looks like Playwright was just installed or updated.       ║
+    ║ Please run the following command to download new browsers: ║
+    ║                                                            ║
+    ║     npx playwright install                                 ║
+    ║                                                            ║
+    ║ <3 Playwright Team                                         ║
+    ╚════════════════════════════════════════════════════════════╝
+
+    Error Context: artifacts/playwright-results/parking-responsive-320px-n-cb4f9-ow-and-comfortable-controls/error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    artifacts/playwright-results/parking-responsive-320px-n-cb4f9-ow-and-comfortable-controls/trace.zip
+    Usage:
+
+        npx playwright show-trace artifacts/playwright-results/parking-responsive-320px-n-cb4f9-ow-and-comfortable-controls/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  13) tests/e2e/parking.spec.ts:17:47 › responsive 375px: no horizontal overflow and comfortable controls 
+
+    Error: browserType.launch: Executable doesn't exist at /root/.cache/ms-playwright/chromium_headless_shell-1243/chrome-headless-shell-linux64/chrome-headless-shell
+    ╔════════════════════════════════════════════════════════════╗
+    ║ Looks like Playwright was just installed or updated.       ║
+    ║ Please run the following command to download new browsers: ║
+    ║                                                            ║
+    ║     npx playwright install                                 ║
+    ║                                                            ║
+    ║ <3 Playwright Team                                         ║
+    ╚════════════════════════════════════════════════════════════╝
+
+    Error Context: artifacts/playwright-results/parking-responsive-375px-n-7127a-ow-and-comfortable-controls/error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    artifacts/playwright-results/parking-responsive-375px-n-7127a-ow-and-comfortable-controls/trace.zip
+    Usage:
+
+        npx playwright show-trace artifacts/playwright-results/parking-responsive-375px-n-7127a-ow-and-comfortable-controls/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  14) tests/e2e/parking.spec.ts:17:47 › responsive 390px: no horizontal overflow and comfortable controls 
+
+    Error: browserType.launch: Executable doesn't exist at /root/.cache/ms-playwright/chromium_headless_shell-1243/chrome-headless-shell-linux64/chrome-headless-shell
+    ╔════════════════════════════════════════════════════════════╗
+    ║ Looks like Playwright was just installed or updated.       ║
+    ║ Please run the following command to download new browsers: ║
+    ║                                                            ║
+    ║     npx playwright install                                 ║
+    ║                                                            ║
+    ║ <3 Playwright Team                                         ║
+    ╚════════════════════════════════════════════════════════════╝
+
+    Error Context: artifacts/playwright-results/parking-responsive-390px-n-211ff-ow-and-comfortable-controls/error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    artifacts/playwright-results/parking-responsive-390px-n-211ff-ow-and-comfortable-controls/trace.zip
+    Usage:
+
+        npx playwright show-trace artifacts/playwright-results/parking-responsive-390px-n-211ff-ow-and-comfortable-controls/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  15) tests/e2e/parking.spec.ts:17:47 › responsive 430px: no horizontal overflow and comfortable controls 
+
+    Error: browserType.launch: Executable doesn't exist at /root/.cache/ms-playwright/chromium_headless_shell-1243/chrome-headless-shell-linux64/chrome-headless-shell
+    ╔════════════════════════════════════════════════════════════╗
+    ║ Looks like Playwright was just installed or updated.       ║
+    ║ Please run the following command to download new browsers: ║
+    ║                                                            ║
+    ║     npx playwright install                                 ║
+    ║                                                            ║
+    ║ <3 Playwright Team                                         ║
+    ╚════════════════════════════════════════════════════════════╝
+
+    Error Context: artifacts/playwright-results/parking-responsive-430px-n-7df62-ow-and-comfortable-controls/error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    artifacts/playwright-results/parking-responsive-430px-n-7df62-ow-and-comfortable-controls/trace.zip
+    Usage:
+
+        npx playwright show-trace artifacts/playwright-results/parking-responsive-430px-n-7df62-ow-and-comfortable-controls/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  16) tests/e2e/parking.spec.ts:17:47 › responsive 768px: no horizontal overflow and comfortable controls 
+
+    Error: browserType.launch: Executable doesn't exist at /root/.cache/ms-playwright/chromium_headless_shell-1243/chrome-headless-shell-linux64/chrome-headless-shell
+    ╔════════════════════════════════════════════════════════════╗
+    ║ Looks like Playwright was just installed or updated.       ║
+    ║ Please run the following command to download new browsers: ║
+    ║                                                            ║
+    ║     npx playwright install                                 ║
+    ║                                                            ║
+    ║ <3 Playwright Team                                         ║
+    ╚════════════════════════════════════════════════════════════╝
+
+    Error Context: artifacts/playwright-results/parking-responsive-768px-n-77b3c-ow-and-comfortable-controls/error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    artifacts/playwright-results/parking-responsive-768px-n-77b3c-ow-and-comfortable-controls/trace.zip
+    Usage:
+
+        npx playwright show-trace artifacts/playwright-results/parking-responsive-768px-n-77b3c-ow-and-comfortable-controls/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  17) tests/e2e/parking.spec.ts:17:47 › responsive 1280px: no horizontal overflow and comfortable controls 
+
+    Error: browserType.launch: Executable doesn't exist at /root/.cache/ms-playwright/chromium_headless_shell-1243/chrome-headless-shell-linux64/chrome-headless-shell
+    ╔════════════════════════════════════════════════════════════╗
+    ║ Looks like Playwright was just installed or updated.       ║
+    ║ Please run the following command to download new browsers: ║
+    ║                                                            ║
+    ║     npx playwright install                                 ║
+    ║                                                            ║
+    ║ <3 Playwright Team                                         ║
+    ╚════════════════════════════════════════════════════════════╝
+
+    Error Context: artifacts/playwright-results/parking-responsive-1280px--66d92-ow-and-comfortable-controls/error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    artifacts/playwright-results/parking-responsive-1280px--66d92-ow-and-comfortable-controls/trace.zip
+    Usage:
+
+        npx playwright show-trace artifacts/playwright-results/parking-responsive-1280px--66d92-ow-and-comfortable-controls/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  18) tests/e2e/parking.spec.ts:18:71 › information page /sources ──────────────────────────────────
+
+    Error: browserType.launch: Executable doesn't exist at /root/.cache/ms-playwright/chromium_headless_shell-1243/chrome-headless-shell-linux64/chrome-headless-shell
+    ╔════════════════════════════════════════════════════════════╗
+    ║ Looks like Playwright was just installed or updated.       ║
+    ║ Please run the following command to download new browsers: ║
+    ║                                                            ║
+    ║     npx playwright install                                 ║
+    ║                                                            ║
+    ║ <3 Playwright Team                                         ║
+    ╚════════════════════════════════════════════════════════════╝
+
+    Error Context: artifacts/playwright-results/parking-information-page-sources/error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    artifacts/playwright-results/parking-information-page-sources/trace.zip
+    Usage:
+
+        npx playwright show-trace artifacts/playwright-results/parking-information-page-sources/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  19) tests/e2e/parking.spec.ts:18:71 › information page /confidentialite ──────────────────────────
+
+    Error: browserType.launch: Executable doesn't exist at /root/.cache/ms-playwright/chromium_headless_shell-1243/chrome-headless-shell-linux64/chrome-headless-shell
+    ╔════════════════════════════════════════════════════════════╗
+    ║ Looks like Playwright was just installed or updated.       ║
+    ║ Please run the following command to download new browsers: ║
+    ║                                                            ║
+    ║     npx playwright install                                 ║
+    ║                                                            ║
+    ║ <3 Playwright Team                                         ║
+    ╚════════════════════════════════════════════════════════════╝
+
+    Error Context: artifacts/playwright-results/parking-information-page-confidentialite/error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    artifacts/playwright-results/parking-information-page-confidentialite/trace.zip
+    Usage:
+
+        npx playwright show-trace artifacts/playwright-results/parking-information-page-confidentialite/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  20) tests/e2e/parking.spec.ts:18:71 › information page /mentions-legales ─────────────────────────
+
+    Error: browserType.launch: Executable doesn't exist at /root/.cache/ms-playwright/chromium_headless_shell-1243/chrome-headless-shell-linux64/chrome-headless-shell
+    ╔════════════════════════════════════════════════════════════╗
+    ║ Looks like Playwright was just installed or updated.       ║
+    ║ Please run the following command to download new browsers: ║
+    ║                                                            ║
+    ║     npx playwright install                                 ║
+    ║                                                            ║
+    ║ <3 Playwright Team                                         ║
+    ╚════════════════════════════════════════════════════════════╝
+
+    Error Context: artifacts/playwright-results/parking-information-page-mentions-legales/error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    artifacts/playwright-results/parking-information-page-mentions-legales/trace.zip
+    Usage:
+
+        npx playwright show-trace artifacts/playwright-results/parking-information-page-mentions-legales/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  21) tests/e2e/parking.spec.ts:20:1 › map chunk failure preserves the authorization text ──────────
+
+    Error: browserType.launch: Executable doesn't exist at /root/.cache/ms-playwright/chromium_headless_shell-1243/chrome-headless-shell-linux64/chrome-headless-shell
+    ╔════════════════════════════════════════════════════════════╗
+    ║ Looks like Playwright was just installed or updated.       ║
+    ║ Please run the following command to download new browsers: ║
+    ║                                                            ║
+    ║     npx playwright install                                 ║
+    ║                                                            ║
+    ║ <3 Playwright Team                                         ║
+    ╚════════════════════════════════════════════════════════════╝
+
+    Error Context: artifacts/playwright-results/parking-map-chunk-failure-preserves-the-authorization-text/error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    artifacts/playwright-results/parking-map-chunk-failure-preserves-the-authorization-text/trace.zip
+    Usage:
+
+        npx playwright show-trace artifacts/playwright-results/parking-map-chunk-failure-preserves-the-authorization-text/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  21 failed
+    tests/e2e/parking.spec.ts:6:1 › principal: address -> four hours -> forbidden -> three parkings 
+    tests/e2e/parking.spec.ts:7:1 › conditional: future deadline is visible and preserved ──────────
+    tests/e2e/parking.spec.ts:8:1 › allowed remains separate from payment ──────────────────────────
+    tests/e2e/parking.spec.ts:9:1 › unknown is a safe explicit result, with alternatives ───────────
+    tests/e2e/parking.spec.ts:10:1 › service failure is an error, not business UNKNOWN ─────────────
+    tests/e2e/parking.spec.ts:11:1 › outside Lyon explains pilot scope ─────────────────────────────
+    tests/e2e/parking.spec.ts:12:1 › autocomplete minimum, keyboard and selected coordinates, two hours 
+    tests/e2e/parking.spec.ts:13:1 › typing after selection invalidates result and selected address 
+    tests/e2e/parking.spec.ts:14:1 › geolocation requested only after click; rejected permission stays usable 
+    tests/e2e/parking.spec.ts:15:1 › geolocation reverse keeps exact GPS position ──────────────────
+    tests/e2e/parking.spec.ts:16:1 › map is lazy and renders locally after text result ─────────────
+    tests/e2e/parking.spec.ts:17:47 › responsive 320px: no horizontal overflow and comfortable controls 
+    tests/e2e/parking.spec.ts:17:47 › responsive 375px: no horizontal overflow and comfortable controls 
+    tests/e2e/parking.spec.ts:17:47 › responsive 390px: no horizontal overflow and comfortable controls 
+    tests/e2e/parking.spec.ts:17:47 › responsive 430px: no horizontal overflow and comfortable controls 
+    tests/e2e/parking.spec.ts:17:47 › responsive 768px: no horizontal overflow and comfortable controls 
+    tests/e2e/parking.spec.ts:17:47 › responsive 1280px: no horizontal overflow and comfortable controls 
+    tests/e2e/parking.spec.ts:18:71 › information page /sources ────────────────────────────────────
+    tests/e2e/parking.spec.ts:18:71 › information page /confidentialite ────────────────────────────
+    tests/e2e/parking.spec.ts:18:71 › information page /mentions-legales ───────────────────────────
+    tests/e2e/parking.spec.ts:20:1 › map chunk failure preserves the authorization text ────────────

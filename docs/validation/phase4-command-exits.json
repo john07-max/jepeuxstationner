@@ -1,0 +1,7 @@
+{
+  "typecheck": 0,
+  "demo": 0,
+  "coverage": 0,
+  "db-check": 1,
+  "db-explain": 1
+}

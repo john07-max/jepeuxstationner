@@ -14,3 +14,9 @@ Aucun historique, table, fichier ou journal de recherches n'est créé. Le cache
 Une adresse ou des coordonnées sont nécessairement transmises au service officiel pour réaliser l'opération demandée. Elles ne sont accompagnées d'aucun identifiant de compte, IP utilisateur ajoutée par l'application, ni cookie applicatif. Le fournisseur réseau peut observer l'IP de sortie du serveur ; aucune promesse d'anonymat réseau n'est faite. Le code ne conserve aucune association adresse + IP + user ID.
 
 Le transport ne journalise ni URL de recherche, ni corps HTTP, ni erreur réseau brute. Les erreurs publiques portent des codes techniques. La CLI affiche uniquement le résultat explicitement demandé par son opérateur. Le provider/cache s'exécute côté serveur et un futur proxy applicatif devra également éviter les logs de paramètres sensibles.
+
+## PHASE 4 — navigateur et serveur HTTP
+
+La géolocalisation est demandée seulement après clic. La position précise n'est ni historisée en base ni journalisée. Les adresses/positions nécessaires au géocodage transitent par le serveur vers le provider existant ; cache serveur RAM borné et temporaire. Aucun stockage local navigateur, cookie ou analytics externe. `emit` est une interface sans collecteur. Limiteur : adresse du socket en RAM, maximum 10 000 entrées, expiration une minute, aucune journalisation. Les logs ne comportent que événement/code/durée/ville.
+
+Le fond de carte est local. Un clic Itinéraire transmet seulement la destination à Google Maps. Avant ouverture publique, configurer les logs du proxy/hébergeur pour exclure query strings et corps GPS, et compléter le contact de confidentialité. Voir DEPLOYMENT.md.

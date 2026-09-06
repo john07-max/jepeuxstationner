@@ -5,7 +5,7 @@ import { resolveLyonContext,findNearbyParkingFacilities } from '../../database/s
 import { databaseDiaLogAdapter } from '../../database/src/dialog.js';
 import { LyonParkingDataSourceAdapter } from '../../adapters/src/lyon/adapter.js';
 import { LyonParkingPricingEngine } from '../../adapters/src/lyon/pricing.js';
-export function createLyonCheckParkingService(client:pg.Client,geocoder:GeocodingProvider):CheckParkingService {
+export function createLyonCheckParkingService(client:Pick<pg.Client,'query'>,geocoder:GeocodingProvider):CheckParkingService {
  const pricing=new LyonParkingPricingEngine();
  return new CheckParkingService({geocoder,resolve:(p,t,n)=>resolveLyonContext(client,p,t,n),
   adapters:(context,p)=>[new LyonParkingDataSourceAdapter(context.coverage),databaseDiaLogAdapter(client,p.longitude,p.latitude)],

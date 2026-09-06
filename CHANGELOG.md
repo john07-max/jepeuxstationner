@@ -51,3 +51,7 @@ Architecture stationnement, moteur 0.0.2, migrations et tests DB conservés. Auc
 ## PHASE 2 — 2026-09-05
 
 Ajout du flux officiel DiaLog DATEX 3, parser SAX sécurisé, normalisation des interdictions, stockage PostGIS transactionnel idempotent, dry-run réel et adaptateur database → moteur. Contrat de restrictions informatives partielles et alias allowedUntil. Fixtures, tests offline, intégration SQL réelle préparée, workflow live séparé, métriques et documentation DIALOG.md. Phase 1 conservée. Validation PostGIS de cette révision en attente ; PHASE 3 non commencée.
+
+## PHASE 4 — API et interface mobile, validation CI en attente
+
+Ajout de apps/web, API check/autocomplete/reverse/health/ready, interface React mobile, GPS volontaire, durées Paris, quatre états et tarification séparée, alternatives, carte locale différée et pages d'information. Tests API/temps/E2E et intégration HTTP/PostGIS ; CI enrichie. Architecture métier et migrations précédentes conservées. Aucun déploiement ni PHASE 5.

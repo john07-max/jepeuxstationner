@@ -21,5 +21,11 @@
     "packages/**/*.ts",
     "apps/**/*.ts",
     "tests/**/*.ts"
+  ],
+  "exclude": [
+    "apps/web/src",
+    "apps/web/vite.config.ts",
+    "tests/e2e",
+    "playwright.config.ts"
   ]
 }

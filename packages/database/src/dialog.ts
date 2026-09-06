@@ -59,7 +59,7 @@ export async function syncDiaLog(client:pg.Client, parsed:ParsedDiaLog, retrieve
   await client.query(dryRun?'ROLLBACK':'COMMIT');changes.durationMs=performance.now()-began;return changes;
  }catch(e){await client.query('ROLLBACK');throw e;}
 }
-export function databaseDiaLogAdapter(client:pg.Client, longitude:number, latitude:number, toleranceMeters=Number(process.env['DIALOG_SPATIAL_TOLERANCE_METERS']??5)):DiaLogDataSourceAdapter {
+export function databaseDiaLogAdapter(client:Pick<pg.Client,'query'>, longitude:number, latitude:number, toleranceMeters=Number(process.env['DIALOG_SPATIAL_TOLERANCE_METERS']??5)):DiaLogDataSourceAdapter {
  if(!Number.isFinite(longitude)||Math.abs(longitude)>180||!Number.isFinite(latitude)||Math.abs(latitude)>90||!Number.isFinite(toleranceMeters)||toleranceMeters<0||toleranceMeters>15)throw new DiaLogError('CONFIG');
  return new DiaLogDataSourceAdapter(async(query:ParkingQuery,signal?:AbortSignal)=>{
   signal?.throwIfAborted();

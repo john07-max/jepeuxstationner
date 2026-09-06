@@ -1,23 +1,22 @@
-# JePeuxStationner — PHASE 3 : pilote Lyon
+# JePeuxStationner — PHASE 4 : API et interface mobile
 
-Pilote Lyon : inventaire officiel des voies, couverture positive explicite, règles UNO sourcées, tarification séparée, parkings publics et service applicatif. L'architecture et le correctif d'idempotence DiaLog sont conservés. Voir [LYON.md](LYON.md), [LYON_AUDIT.md](LYON_AUDIT.md), [TEST_RESULTS.md](TEST_RESULTS.md) et [DELIVERY_PHASE_3.md](DELIVERY_PHASE_3.md).
+[![CI](https://github.com/john07-max/jepeuxstationner/actions/workflows/ci.yml/badge.svg)](https://github.com/john07-max/jepeuxstationner/actions/workflows/ci.yml)
 
-**257 tests unitaires passent dans Work après le correctif des intégrations Lyon.** La CI PHASE 2 est confirmée verte par l'utilisateur. La CI PHASE 3 précédente a exécuté 58 intégrations : 54 réussies, 4 échouées. Le correctif reste à revalider sur GitHub. Voir [PHASE3_INTEGRATION_FIX.md](PHASE3_INTEGRATION_FIX.md). Les 96,58 % de rapprochement des axes ne certifient aucune place : **0 emplacement réel vérifié**. Le temps réel officiel renvoie HTTP 401 depuis Work. Ces limites empêchent encore une mise en service permettant d'autoriser du stationnement réel.
-
-```text
-READY FOR PHASE 4: NO
-Reason: Phase 3 PostgreSQL/PostGIS CI pending; verified parking-space coverage absent; realtime access/schema unverified.
-```
-
-## Essayer le pilote hors réseau
+Recherche d'adresse ou GPS volontaire, durée, autorisation et tarification distinctes, parkings proches et carte facultative. Les PHASES 0–3 sont annoncées validées par l'utilisateur. La nouvelle CI PHASE 4 reste à exécuter. Aucune PHASE 5 ni ouverture publique automatique.
 
 ```bash
 npm ci
 npm run validate
-npm run lyon:coverage -- --file data/lyon/roads.geojson
+npm run demo:web
 ```
 
-Les commandes de synchronisation, le service check:parking et la configuration sont documentés dans LYON.md. Aucune interface web finale n'est ajoutée.
+La démonstration utilise des données fictives, sans API publique ni PostgreSQL. Ouvrir http://localhost:4173 et saisir « Interdit », « Conditionnel », « Autorisé » ou « Inconnu ». Pour la base réelle et la production : [DEPLOYMENT.md](DEPLOYMENT.md). Contrat [API.md](API.md), interface [UI.md](UI.md), résultats [TEST_RESULTS.md](TEST_RESULTS.md), livraison [DELIVERY_PHASE_4.md](DELIVERY_PHASE_4.md).
+
+## Validation avec GitHub Actions
+
+Copier les fichiers dans votre dépôt GitHub Desktop existant → Commit → Push origin → onglet Actions sur GitHub → workflow « CI - PostGIS Lyon API Web ». Attendre que **toutes** les étapes soient vertes. Procédure détaillée et résultats à renvoyer dans [DEPLOYMENT.md](DEPLOYMENT.md). Le workflow démarre PostgreSQL/PostGIS avec Compose ; `db:up` nécessite Docker uniquement sur l'environnement qui l'exécute, jamais dans Work.
+
+La validation logicielle ne prouve pas la couverture réelle des emplacements. Les limites de données de [LYON_AUDIT.md](LYON_AUDIT.md) demeurent : les axes rapprochés ne constituent pas des places certifiées, et le temps réel ne doit pas être affiché sans observation fraîche vérifiée.
 
 ## Essayer le géocodage
 

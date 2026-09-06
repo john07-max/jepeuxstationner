@@ -58,3 +58,7 @@ Les packages existants sont conservés. `adapters/src/dialog` centralise transpo
 - `apps/demo` : commandes sync:lyon:*, lyon:coverage et check:parking. Aucune UI.
 
 Le moteur central ajoute seulement scope=GENERAL et une priorité générique limitée des interdictions spécifiques. Aucune constante Lyon dans ce moteur. Les tables historiques, DiaLog et le géocodage restent inchangés. Aucun axe géographique ne devient automatiquement une place vérifiée. Le stockage ne conserve ni adresse soumise ni profil utilisateur.
+
+## PHASE 4 : couche HTTP et web
+
+`apps/web/server` (Node http, pool PG) → `CheckParkingService.checkPosition` → moteur/adapters existants ; React dans `apps/web/src` consomme uniquement l'API normalisée. Vite compile le frontend en dist/web ; tsc compile l'API en dist/apps/web/server. Carte dynamique avec données locales, aucun fournisseur dans le navigateur. Démo explicite dans tests/support séparée de l'entrée production. Aucune migration ni changement de priorité du moteur.

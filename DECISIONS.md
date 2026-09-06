@@ -116,3 +116,15 @@ Le service ne remplace jamais la décision par le prix. Le tarif d'une position 
 Performance : seuil 500ms inchangé, compteur démarré après setup/ANALYZE. Journal de durée avant les assertions métier ; EXPLAIN récupéré avant l'assertion de durée pour conserver le plan si la performance échoue. Aucune optimisation spéculative : la durée applicative PostgreSQL n'est pas mesurable dans Work. Les ~823ms rapportées pour le test entier ne constituent pas une mesure isolée du service.
 
 Huit nouveaux tests offline, les 58 intégrations conservées et renforcées. Revalidation réelle GitHub obligatoire ; aucune PHASE 4.
+
+## PHASE 4 — 2026-09-06
+
+- React + Vite et Node http : couche web mince ajoutée au monorepo ; conservation de PostgreSQL/PostGIS, moteur, adapters et CLI. Pas de framework serveur supplémentaire. Node 24 et dépendances verrouillées.
+- `checkPosition` évite un second géocodage et conserve le GPS exact. `check` historique reste compatible. Les dépendances SQL de lecture acceptent `Pick<Client, 'query'>` pour prendre un PoolClient sans remplacer les queries.
+- Ajout facultatif `failure: SERVICE_UNAVAILABLE` au résultat interne pour distinguer une panne indispensable d'un UNKNOWN métier. L'API transforme cette panne en 503. Alternatives aussi pour UNKNOWN ; leur panne facultative ne modifie pas l'autorisation.
+- Pas de cache de décision finale : aucune échéance de restriction ou fraîcheur n'est prolongée par un cache. Cache géocodage RAM existant conservé.
+- Carte facultative importée à la demande. GeoJSON d'axes dérivé des données locales de la Métropole, attributs supprimés, attribution conservée. Aucun appel cartographique externe et aucune prétention de couverture des places. Une panne du module carte laisse le résultat textuel intact.
+- Same-origin, corps limité, rate limiting RAM borné par socket, pas de confiance implicite dans les IP proxy ; durées et limites dans API.md. Pas de secret navigateur, de cookie, de suivi externe ni de persistance des positions.
+- « Demain matin » signifie 10 h Paris le jour suivant ; la limite produit 24 h reste applicable. Aucun allongement silencieux pour faire passer la période.
+- Lanceur développement charge .env et transmet les arguments Vite. Démo uniquement sur activation explicite ; entrée production impose DATABASE_URL.
+- CI historique conservée et enrichie du build, Chromium et E2E hors réseau. Nouvelle intégration HTTP → PostGIS → moteur avec seuil 500 ms, setup exclu. Aucune augmentation des seuils ni index forcé.

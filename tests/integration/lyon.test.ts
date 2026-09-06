@@ -1,6 +1,7 @@
 import {test,before,beforeEach,after} from 'node:test';
 import assert from 'node:assert/strict';
 import pg from 'pg';
+import {webServer} from '../../apps/web/server/server.js';
 import {readFile,readdir} from 'node:fs/promises';
 import type {GeocodingProvider} from '../../packages/domain/src/geocoding.js';
 import {createLyonCheckParkingService} from '../../packages/application/src/lyon.js';
@@ -67,4 +68,22 @@ test('Lyon DB end-to-end offline target <500ms and unforced EXPLAIN ANALYZE',asy
  console.log(JSON.stringify({event:'lyon.nearby.plan',plan:plan.rows[0]}));assert.equal(plan.rows[0]?.['QUERY PLAN']?.[0]?.Plan?.['Actual Rows'],3);
  assert.ok(durationMs<500,`Offline pipeline ${durationMs} ms exceeds target`);
  assert.equal((await client.query("SELECT indexname FROM pg_indexes WHERE schemaname=current_schema() AND indexname='parking_facilities_geography_gist'")).rowCount,1);
+});
+
+// Fixtures and migrations run before the timer. HTTP -> service -> real PostGIS -> engine.
+test('Lyon DB HTTP API preserves prohibition and three facilities in under 500ms',async()=>{
+ await restriction();await syncLyonFacilities(client,await facilities(),now);
+ const server=webServer({geocoder,now:()=>Date.parse(now),ready:async()=>true,
+  async inCity(p){return (await client.query("SELECT ST_Covers(boundary,ST_SetSRID(ST_MakePoint($1,$2),4326)) covered FROM cities WHERE id='lyon'",[p.longitude,p.latitude])).rows[0]?.covered===true;},
+  check:async(input,observed)=>service.checkPosition(input,{start:input.start,end:input.end},observed,input.vehicle)},'http://localhost');
+ await new Promise<void>(resolve=>server.listen(0,'127.0.0.1',resolve));
+ try {
+  const address=server.address();assert.ok(address&&typeof address==='object');
+  const began=performance.now();
+  const response=await fetch(`http://127.0.0.1:${address.port}/api/parking/check`,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({...position,...period})});
+  const result=await response.json();const durationMs=performance.now()-began;
+  console.log(JSON.stringify({event:'api.offline.performance',durationMs,targetMs:500,setupExcluded:true}));
+  assert.equal(response.status,200);assert.equal(result.decision.status,'FORBIDDEN');assert.equal(result.pricing.status,'PAID');assert.equal(result.nearbyParkings.length,3);
+  assert.ok(durationMs<500,`Real HTTP/DB request took ${durationMs}ms`);
+ } finally {await new Promise<void>((resolve,reject)=>{server.close(error=>error?reject(error):resolve());server.closeAllConnections();});}
 });

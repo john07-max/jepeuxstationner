@@ -76,14 +76,14 @@ export async function storeFacilityObservation(client:pg.Client,o:RealtimeObserv
  await client.query(`UPDATE parking_facilities SET observation=$2::jsonb WHERE source_id='lyon-facilities' AND external_id=$1
   AND (observation IS NULL OR (observation->>'updatedAt')::timestamptz < $3::timestamptz)`,[o.externalId,JSON.stringify(o),o.updatedAt]);
 }
-export async function findNearbyParkingFacilities(client:pg.Client,position:Coordinates,radius:number,limit:number,now:string,maxAge=realtimeMaxAge()):Promise<NearbyParkingFacility[]> {
+export async function findNearbyParkingFacilities(client:Pick<pg.Client,'query'>,position:Coordinates,radius:number,limit:number,now:string,maxAge=realtimeMaxAge()):Promise<NearbyParkingFacility[]> {
  coordinates(position.latitude,position.longitude);
  if(!Number.isFinite(radius)||radius<=0||radius>10000||!Number.isInteger(limit)||limit<1||limit>20)throw new Error('Invalid nearby search bounds');
  const query=await readFile('packages/database/queries/nearby-facilities.sql','utf8');
  const {rows}=await client.query(query,[position.longitude,position.latitude,radius,limit]);
  return rows.map(r=>({...withRealtime(r.normalized as ParkingFacility,(r.observation??undefined) as RealtimeObservation|undefined,now,maxAge),distanceMeters:Number(r.distance_meters)}));
 }
-export async function resolveLyonContext(client:pg.Client,position:Coordinates,period:Period,now:string):Promise<ParkingContext|undefined> {
+export async function resolveLyonContext(client:Pick<pg.Client,'query'>,position:Coordinates,period:Period,now:string):Promise<ParkingContext|undefined> {
  coordinates(position.latitude,position.longitude);
  const {rows}=await client.query(`SELECT z.id,z.city_id,z.curb_side,v.evidence_url,v.regime,v.verified_at,v.fresh_until,
    s.eligible,s.present,s.retrieved_at

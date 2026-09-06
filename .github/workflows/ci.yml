@@ -1,4 +1,4 @@
-name: CI - PostGIS geocoding DiaLog Lyon
+name: CI - PostGIS Lyon API Web
 on:
   push:
   pull_request:
@@ -9,7 +9,7 @@ jobs:
   validate:
     name: PostgreSQL 17 / PostGIS 3.5 validation
     runs-on: ubuntu-24.04
-    timeout-minutes: 15
+    timeout-minutes: 25
     defaults:
       run:
         shell: bash
@@ -53,6 +53,12 @@ jobs:
         run: npm run lyon:coverage -- --file data/lyon/roads.geojson 2>&1 | tee artifacts/lyon-coverage.log
       - name: Fictional demo
         run: npm run demo 2>&1 | tee artifacts/demo.log
+      - name: Build production API and web
+        run: npm run build 2>&1 | tee artifacts/build.log
+      - name: Install Chromium for deterministic browser tests
+        run: npx playwright install --with-deps chromium 2>&1 | tee artifacts/browser-install.log
+      - name: Mobile and desktop E2E without public APIs
+        run: npm run test:e2e 2>&1 | tee artifacts/e2e.log
       - name: Collect database container logs
         if: always()
         run: |
