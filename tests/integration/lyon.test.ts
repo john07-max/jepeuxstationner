@@ -27,13 +27,23 @@ beforeEach(async()=>{
  await client.query("INSERT INTO lyon_verified_spaces VALUES('fixture-bay','fixture-road','https://example.org/fictional-bay-survey','2026-09-06T00:00:00Z','2026-09-20T00:00:00Z','UNO')");
  await client.query(`INSERT INTO data_sources(id,adapter_id,authority,kind,reference,version,synthetic,observed_at,fresh_until) VALUES('dialog','dialog','OFFICIAL','DATASET','fixture://empty-dialog','3',true,$1,'2026-09-20T00:00:00Z')`,[now]);
 });
-async function restriction(start=now){const xml=await readFile('tests/fixtures/dialog/dialog-parking-active.xml','utf8');const parsed=await parseDiaLog((async function*(){yield xml;})(),now);const rules=parsed.rules.map(r=>({...r,start,end:period.end,geometry:{type:'Polygon' as const,coordinates:[[[4.82,45.75],[4.84,45.75],[4.84,45.77],[4.82,45.77],[4.82,45.75]]] as [number,number][][]}}));await syncDiaLog(client,{...parsed,rules},now);}
-test('Lyon DB A: verified Monday space -> CONDITIONAL and PAID',async()=>{const r=await service.check('fixture',period,now);assert.equal(r.decision.status,'CONDITIONAL');assert.equal(r.pricing.status,'PAID');assert.equal(r.pricing.amount,undefined);});
+async function restriction(start=now){
+ const kind=start===now?'active':'future';
+ assert.ok(start===now||start==='2026-09-07T14:00:00Z');
+ const xml=await readFile(`tests/fixtures/lyon/dialog-${kind}.xml`,'utf8');
+ const parsed=await parseDiaLog((async function*(){yield xml;})(),now);
+ assert.equal(parsed.rules.length,1);assert.equal(parsed.rules[0]?.active,true,'Fixture must be active before persistence');
+ assert.equal(parsed.rules[0]?.start,new Date(start).toISOString());
+ const changes=await syncDiaLog(client,parsed,now);assert.equal(changes.inserted,1);
+ const selected=await client.query(await readFile('packages/database/queries/dialog-at-position.sql','utf8'),[position.longitude,position.latitude,period.start,period.end,5]);
+ assert.equal(selected.rowCount,1,'Actual spatial query must select the fixture restriction');
+}
+test('Lyon DB A: verified Monday space -> ALLOWED and PAID',async()=>{const r=await service.check('fixture',period,now);assert.equal(r.decision.status,'ALLOWED');assert.equal(r.pricing.status,'PAID');assert.equal(r.pricing.amount,undefined);});
 test('Lyon DB B: verified Sunday space -> ALLOWED and FREE',async()=>{const r=await service.check('fixture',{start:'2026-09-06T12:00:00Z',end:'2026-09-06T14:00:00Z'},now);assert.equal(r.decision.status,'ALLOWED');assert.equal(r.pricing.status,'FREE');});
 test('Lyon DB C: real spatial DiaLog restriction overrides local general rule',async()=>{await restriction();const r=await service.check('fixture',period,now);assert.equal(r.decision.status,'FORBIDDEN');});
-test('Lyon DB D: future ban in two hours -> CONDITIONAL with deadline',async()=>{await restriction('2026-09-07T14:00:00Z');const r=await service.check('fixture',period,now);assert.equal(r.decision.status,'CONDITIONAL');assert.equal(r.allowedUntil,'2026-09-07T14:00:00.000Z');});
+test('Lyon DB D: future ban in two hours -> CONDITIONAL with deadline',async()=>{await restriction('2026-09-07T14:00:00Z');const r=await service.check('fixture',period,now);assert.equal(r.decision.status,'CONDITIONAL');assert.equal(r.allowedUntil,'2026-09-07T14:00:00.000Z');assert.equal(r.mustLeaveBefore,r.allowedUntil);assert.equal(r.decision.allowedUntil,r.allowedUntil);assert.equal(r.decision.mustLeaveBefore,r.mustLeaveBefore);});
 test('Lyon DB E: no verified local coverage plus empty DiaLog -> UNKNOWN',async()=>{await client.query('DELETE FROM lyon_verified_spaces');assert.equal((await service.check('fixture',period,now)).decision.status,'UNKNOWN');});
-test('Lyon DB F: forbidden -> three nearby public facilities ordered by metres',async()=>{await restriction();await syncLyonFacilities(client,await facilities(),now);const r=await service.check('fixture',period,now);assert.equal(r.decision.status,'FORBIDDEN');assert.equal(r.nearbyParkings.length,3);assert.ok(r.nearbyParkings[0]!.distanceMeters>100&&r.nearbyParkings[0]!.distanceMeters<120);assert.ok(r.nearbyParkings[0]!.distanceMeters<r.nearbyParkings[1]!.distanceMeters);});
+test('Lyon DB F: forbidden -> three nearby public facilities ordered by metres',async()=>{await restriction();await syncLyonFacilities(client,await facilities(),now);const r=await service.check('fixture',period,now);assert.equal(r.decision.status,'FORBIDDEN');assert.equal(r.nearbyParkings.length,3);assert.ok(r.nearbyParkings[0]!.distanceMeters>100&&r.nearbyParkings[0]!.distanceMeters<120);assert.ok(r.nearbyParkings[0]!.distanceMeters<r.nearbyParkings[1]!.distanceMeters);assert.ok(r.nearbyParkings[1]!.distanceMeters<r.nearbyParkings[2]!.distanceMeters);});
 test('Lyon DB exact polygon border ST_Covers and overlapping zones ambiguous',async()=>{assert.ok(await resolveLyonContext(client,{longitude:4.8299,latitude:45.76},period,now));await client.query("INSERT INTO parking_zones SELECT 'overlap',city_id,label,curb_side,area FROM parking_zones WHERE id='fixture-bay'");assert.equal(await resolveLyonContext(client,position,period,now),undefined);});
 test('Lyon DB lon/lat inversion and unknown curb rejected',async()=>{assert.equal(await resolveLyonContext(client,{longitude:45.76,latitude:4.83},period,now),undefined);await client.query("UPDATE parking_zones SET curb_side='UNKNOWN'");assert.equal(await resolveLyonContext(client,position,period,now),undefined);});
 test('Lyon DB stale street evidence -> UNKNOWN',async()=>{await client.query("UPDATE lyon_street_inventory SET retrieved_at='2026-08-01T00:00:00Z'");assert.equal((await service.check('fixture',period,now)).decision.status,'UNKNOWN');});
@@ -51,9 +61,10 @@ test('Lyon DB end-to-end offline target <500ms and unforced EXPLAIN ANALYZE',asy
  FROM parking_facilities CROSS JOIN generate_series(1,20000) i WHERE external_id='fixture-0'`);
  await client.query('ANALYZE parking_facilities');
  const began=performance.now();const r=await service.check('fixture',period,now);const durationMs=performance.now()-began;
+ console.log(JSON.stringify({event:'lyon.offline.performance',durationMs,targetMs:500,setupExcluded:true}));
  assert.equal(r.decision.status,'FORBIDDEN');assert.equal(r.nearbyParkings.length,3);
- console.log(JSON.stringify({event:'lyon.offline.performance',durationMs,targetMs:500}));assert.ok(durationMs<500,`Offline pipeline ${durationMs} ms exceeds target`);
  const sql=await readFile('packages/database/queries/nearby-facilities.sql','utf8');const plan=await client.query('EXPLAIN (ANALYZE, BUFFERS, FORMAT JSON) '+sql,[position.longitude,position.latitude,1500,3]);
  console.log(JSON.stringify({event:'lyon.nearby.plan',plan:plan.rows[0]}));assert.equal(plan.rows[0]?.['QUERY PLAN']?.[0]?.Plan?.['Actual Rows'],3);
+ assert.ok(durationMs<500,`Offline pipeline ${durationMs} ms exceeds target`);
  assert.equal((await client.query("SELECT indexname FROM pg_indexes WHERE schemaname=current_schema() AND indexname='parking_facilities_geography_gist'")).rowCount,1);
 });

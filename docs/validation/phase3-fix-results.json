@@ -1,0 +1,57 @@
+[
+  {
+    "command": "npm ci",
+    "exitCode": 0,
+    "log": "docs/validation/phase3-fix-npm-ci.log"
+  },
+  {
+    "command": "npm run typecheck",
+    "exitCode": 0,
+    "log": "docs/validation/phase3-fix-typecheck.log"
+  },
+  {
+    "command": "npm run test",
+    "exitCode": 0,
+    "log": "docs/validation/phase3-fix-test.log"
+  },
+  {
+    "command": "npm run demo",
+    "exitCode": 0,
+    "log": "docs/validation/phase3-fix-demo.log"
+  },
+  {
+    "command": "npm run db:wait",
+    "exitCode": 1,
+    "log": "docs/validation/phase3-fix-db-wait.log"
+  },
+  {
+    "command": "npm run db:check",
+    "exitCode": 1,
+    "log": "docs/validation/phase3-fix-db-check.log"
+  },
+  {
+    "command": "npm run db:migrate",
+    "exitCode": 1,
+    "log": "docs/validation/phase3-fix-db-migrate.log"
+  },
+  {
+    "command": "npm run test:db",
+    "exitCode": 1,
+    "log": "docs/validation/phase3-fix-test-db.log"
+  },
+  {
+    "command": "npm run test:integration",
+    "exitCode": 1,
+    "log": "docs/validation/phase3-fix-test-integration.log"
+  },
+  {
+    "command": "npm run db:explain",
+    "exitCode": 1,
+    "log": "docs/validation/phase3-fix-db-explain.log"
+  },
+  {
+    "command": "npm run lyon:coverage -- --file data/lyon/roads.geojson",
+    "exitCode": 0,
+    "log": "docs/validation/phase3-fix-lyon-coverage.log"
+  }
+]

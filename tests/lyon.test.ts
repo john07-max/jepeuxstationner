@@ -15,7 +15,7 @@ export const coverage:ParkingCoverage={cityId:'lyon',zoneId:'fictional-marked-ba
 const query:ParkingQuery={cityId:'lyon',zoneId:coverage.zoneId,start:'2026-09-07T14:00:00+02:00',end:'2026-09-07T15:00:00+02:00'};
 const now='2026-09-07T12:00:00Z',engine=new ParkingDecisionEngine(),pricing=new LyonParkingPricingEngine();
 async function local(q=query,c=coverage){return new LyonParkingDataSourceAdapter(c).load(q);}
-test('Lyon A documented Monday 14h is conditional payment, no invented amount',async()=>{const d=engine.evaluate(query,[await local()],now);assert.equal(d.status,'CONDITIONAL');const p=pricing.evaluate(query,true);assert.equal(p.status,'PAID');assert.equal(p.amount,undefined);});
+test('Lyon A documented Monday 14h is allowed with payment, no invented amount',async()=>{const d=engine.evaluate(query,[await local()],now);assert.equal(d.status,'ALLOWED');const p=pricing.evaluate(query,true);assert.equal(p.status,'PAID');assert.equal(p.amount,undefined);});
 test('Lyon B documented Sunday is allowed and free',async()=>{const q={...query,start:'2026-09-06T14:00:00+02:00',end:'2026-09-06T15:00:00+02:00'};assert.equal(engine.evaluate(q,[await local(q)],now).status,'ALLOWED');assert.equal(pricing.evaluate(q,true).status,'FREE');});
 for(const [label,changes] of [['uncovered',{status:'UNKNOWN'}],['unverified bay',{markedSpaceVerified:false}],['ambiguous',{ambiguous:true}],['nocturne',{regime:'UNSUPPORTED'}]] as const)test(`Lyon ${label} -> UNKNOWN even without DiaLog`,async()=>{assert.equal(engine.evaluate(query,[await local(query,{...coverage,...changes})],now).status,'UNKNOWN');});
 test('Lyon stale coverage fails closed',async()=>{assert.equal(engine.evaluate(query,[await local()], '2026-10-02T00:00:00Z').status,'UNKNOWN');});

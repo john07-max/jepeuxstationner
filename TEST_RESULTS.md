@@ -1,3 +1,35 @@
+# Correctif ciblé des intégrations Lyon — résultats Work
+
+La dernière CI rapportée par l'utilisateur a réellement exécuté 58 intégrations : **54 réussites, 4 échecs**. Les résultats ci-dessous concernent le correctif local ; aucune nouvelle CI n'a encore été observée.
+
+## TESTS EXÉCUTÉS DANS L'ENVIRONNEMENT WORK
+
+- npm ci : code 0.
+- npm run typecheck : code 0.
+- npm test : **257/257 réussis**, 0 échec, 0 ignoré (249 existants conservés, 8 ajouts). Les assertions de paiement seul sont adaptées au nouveau contrat explicite ALLOWED + PAID.
+- npm run demo : code 0.
+- npm run lyon:coverage -- --file data/lyon/roads.geojson : code 0, rapport inchangé.
+- npm run test:integration : compilation réussie, code 1 faute de DATABASE_URL ; aucun scénario SQL exécuté.
+- npm run test:db, db:wait, db:check, db:migrate, db:explain : code 1 faute de DATABASE_URL ; aucune validation runtime.
+
+Preuves dans docs/validation/phase3-fix-*.log et phase3-fix-results.json. Aucun Docker/PostgreSQL installé ou démarré. Aucun test live relancé pour ce correctif ; aucun appel aux APIs métier.
+
+## TESTS PRÉPARÉS POUR GITHUB ACTIONS MAIS NON ENCORE EXÉCUTÉS
+
+- Les **58 intégrations existantes** sont conservées ; fixtures Lyon corrigées et préconditions renforcées. Aucun échec n'est supprimé ou ignoré.
+- PostgreSQL/PostGIS, migrations et leur rejeu, tests SQL, sélection réelle DiaLog, bordures, fraîcheur, idempotence, proximité en mètres et index.
+- Les quatre échéances (décision + DTO), trois parkings triés, end-to-end et EXPLAIN ANALYZE.
+- Cible <500ms inchangée. La durée mesurée commence après préparation des fixtures. Le journal sort avant les assertions métier et le plan avant l'assertion de durée. **Temps PostgreSQL après correction : non mesuré dans Work.**
+
+Total défini : **257 unités + 58 intégrations + 9 live = 324 tests**, hors assertions SQL. Le total défini ne signifie pas un total réussi.
+
+READY FOR PHASE 4: NO
+Reason: Corrected PostgreSQL/PostGIS integrations and full GitHub CI pending; end-to-end runtime unmeasured. Existing coverage and realtime limitations remain.
+
+---
+
+# Historique de la livraison PHASE 3 avant correctif
+
 # Résultats PHASE 3 — 6 septembre 2026
 
 La CI PHASE 2 verte a été confirmée par l'utilisateur dans le nouveau brief. Ce constat autorise PHASE 3 mais ne valide pas ses nouveaux changements. Aucun serveur PostgreSQL/Docker n'a été installé dans Work.

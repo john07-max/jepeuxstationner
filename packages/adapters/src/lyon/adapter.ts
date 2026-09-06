@@ -14,7 +14,7 @@ export class LyonParkingDataSourceAdapter implements DataSourceAdapter {
   const periods=paymentSegments(query);
   const paidMinutes=periods.filter(p=>p.paid).reduce((n,p)=>n+(Date.parse(p.end)-Date.parse(p.start))/60000,0);
   if(paidMinutes>600)return {...base,complete:false,rules:[]};
-  return {...base,rules:periods.map((p,i)=>({...query,...p,id:`${c.zoneId}:uno:${i}`,scope:'GENERAL' as const,effect:p.paid?'CONDITIONAL' as const:'ALLOWED' as const,
-   conditions:p.paid?['Paiement du stationnement visiteur requis.']:[],source:c.source}))};
+  return {...base,rules:periods.map((p,i)=>({...query,start:p.start,end:p.end,id:`${c.zoneId}:uno:${i}`,scope:'GENERAL' as const,effect:'ALLOWED' as const,
+   conditions:[],source:c.source}))};
  }
 }

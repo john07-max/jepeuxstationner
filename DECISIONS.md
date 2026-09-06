@@ -101,3 +101,18 @@ L'utilisateur confirme la CI PHASE 2 verte dans le dernier cahier des charges et
 | ADR-048 | Vrai PostGIS uniquement en CI | Les tests Lyon A–F, import, proximité, métrique <500ms et EXPLAIN ANALYZE sont préparés sur schéma privé isolé. Aucun PostgreSQL/Docker installé dans Work. Le workflow principal n'appelle aucun endpoint métier ; audit live manuel séparé. Pas de READY PHASE 4 avant CI verte, couverture de places réelle et temps réel vérifié. |
 
 Les valeurs -1 du flux statique sont des capacités inutilisables, conservées comme absence de capacité et jamais comme zéro. Les 189 enregistrements restent traçables. `invalid=0` dans un import réussi signifie validation stricte préalable ; une erreur structurelle lève une erreur et fait échouer la commande, elle n'est pas masquée par un compteur de succès.
+
+
+## ADR-049 — correction ciblée des quatre échecs Lyon
+
+Cause commune vérifiée hors base : le helper restriction() de tests/integration/lyon.test.ts analysait dialog-parking-active.xml (fin 05/09/2026 18:00Z) avec retrievedAt=07/09/2026 12:00Z. Le parseur calculait correctement active=false. Le helper changeait ensuite début, fin et géométrie mais conservait active=false. Le WHERE active de la requête PostGIS excluait donc la règle : C/F/end-to-end ne voyaient que la règle locale ; D ne voyait aucune interdiction future et n'avait aucune échéance. Ce n'était pas une priorité inversée du moteur ni une perte de allowedUntil dans le mapping existant.
+
+Correction : deux fixtures XML Lyon cohérentes datées du 7 septembre (active/future), analysées sans modification métier après parsing. Préconditions d'intégration sur cardinalité, active, début, insertion et sélection par la vraie requête spatiale. Le parseur DiaLog, son idempotence, les migrations, les requêtes et la priorité générique du moteur restent inchangés.
+
+Contrat produit demandé : paiement seul n'est plus une condition d'autorisation. L'adaptateur local produit une permission GENERAL ALLOWED sur un emplacement documenté ; PAID/FREE reste dans le moteur tarifaire. La priorité spécifique FORBIDDEN sur une permission générale existe déjà ; les conflits spécifiques et UNKNOWN restent traités comme avant. Les assertions lundi payant sont mises à jour à ALLOWED + PAID sans supprimer les scénarios.
+
+Le service ne remplace jamais la décision par le prix. Le tarif d'une position documentée peut rester PAID/FREE quand son autorisation est FORBIDDEN. UNKNOWN conserve un tarif inconnu. allowedUntil était déjà copié ; mustLeaveBefore est maintenant aussi exposé en haut du DTO, en conservant les deux propriétés de ParkingDecision. Tests explicites sur les quatre valeurs. La recherche des trois parkings reste déclenchée exclusivement par decision.status===FORBIDDEN.
+
+Performance : seuil 500ms inchangé, compteur démarré après setup/ANALYZE. Journal de durée avant les assertions métier ; EXPLAIN récupéré avant l'assertion de durée pour conserver le plan si la performance échoue. Aucune optimisation spéculative : la durée applicative PostgreSQL n'est pas mesurable dans Work. Les ~823ms rapportées pour le test entier ne constituent pas une mesure isolée du service.
+
+Huit nouveaux tests offline, les 58 intégrations conservées et renforcées. Revalidation réelle GitHub obligatoire ; aucune PHASE 4.

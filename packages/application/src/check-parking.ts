@@ -22,11 +22,12 @@ export class CheckParkingService {
    const context=await this.dependencies.resolve(location.coordinates,period,now);
    if(!context)return {...unknown,location,warnings:['Position hors emplacement documenté ou proche de plusieurs zones.']};
    const decision=await decide(context.query,this.dependencies.adapters(context,location.coordinates),now);
-   const permitted=decision.status==='ALLOWED'||decision.status==='CONDITIONAL';
-   const pricing=this.dependencies.pricing({...period,end:decision.allowedUntil??period.end},permitted,vehicle);
+   // Pricing describes a documented location, independently of its authorization.
+   const documented=decision.status!=='UNKNOWN'&&context.coverage.status==='DOCUMENTED';
+   const pricing=this.dependencies.pricing({...period,end:decision.allowedUntil??period.end},documented,vehicle);
    let nearbyParkings:NearbyParkingFacility[]=[];const warnings:string[]=[decision.notice];
    if(decision.status==='FORBIDDEN')try{nearbyParkings=await this.dependencies.nearby(location.coordinates,1500,3,now);}catch{warnings.push('Recherche de parkings temporairement indisponible.');}
-   return {location,decision,...(decision.allowedUntil?{allowedUntil:decision.allowedUntil}:{}),conditions:[...new Set(decision.segments.flatMap(s=>s.conditions))],pricing,
+   return {location,decision,...(decision.allowedUntil?{allowedUntil:decision.allowedUntil}:{}),...(decision.mustLeaveBefore?{mustLeaveBefore:decision.mustLeaveBefore}:{}),conditions:[...new Set(decision.segments.flatMap(s=>s.conditions))],pricing,
     confidence:decision.status==='UNKNOWN'?'UNKNOWN':'DOCUMENTED',sources:decision.evidence,nearbyParkings,dataFreshness:decision.status==='UNKNOWN'?'UNKNOWN':'CURRENT',warnings};
   }catch{return {...unknown,warnings:['Vérification indisponible ; aucune autorisation déduite.']};}
  }

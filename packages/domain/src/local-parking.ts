@@ -21,7 +21,7 @@ export interface ParkingFacility {
 export interface NearbyParkingFacility extends ParkingFacility { distanceMeters:number }
 export interface CityCoverageReport { officialStreets:number; matched:number; ambiguous:number; unmatched:number; coveragePercent:number; verifiedParkingSpaces:number }
 export interface ParkingCheckResult {
- location:GeocodingResult|null; decision:ParkingDecision; allowedUntil?:string; conditions:readonly string[];
+ location:GeocodingResult|null; decision:ParkingDecision; allowedUntil?:string; mustLeaveBefore?:string; conditions:readonly string[];
  pricing:ParkingPricing; confidence:'DOCUMENTED'|'UNKNOWN'; sources:readonly SourceEvidence[];
  nearbyParkings:readonly NearbyParkingFacility[]; dataFreshness:'CURRENT'|'UNKNOWN'; warnings:readonly string[];
 }

@@ -1,3 +1,5 @@
+> Mise à jour : cette livraison initiale est complétée par PHASE3_INTEGRATION_FIX.md. La CI précédente a donné 54/58 intégrations ; le correctif ajoute huit unités (257 réussies) et doit être revalidé sur GitHub. Les nombres ci-dessous décrivent la livraison initiale.
+
 # Livraison PHASE 3 — pilote Lyon
 
 Le dernier document joint confirme les phases précédentes et autorise le pilote Lyon. L'architecture existante et la correction d'idempotence DiaLog sont conservées. Cette livraison termine le travail réalisable dans Work ; elle ne constitue pas une validation de mise en production.

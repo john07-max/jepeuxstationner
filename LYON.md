@@ -52,7 +52,7 @@ Tarification séparée, paliers publiés de 30 min à 10h :
 | Standard | Thermique >1 000 à 1 525 kg ; hybride rechargeable >1 000 à 1 900 kg |
 | Majoré | Au-dessus des seuils précédents |
 
-Sans énergie/poids, PAID peut être déterminé mais aucun montant n'est fourni. Pas d'interpolation entre paliers ni de calcul multi-journées. `pricing.status` décrit le début de la période ; `validUntil` sa prochaine transition ou la fin demandée. `amount`, s'il existe, concerne la durée évaluée, arrêtée avant une interdiction future. Pour une décision FORBIDDEN/UNKNOWN, le prix de voirie reste UNKNOWN.
+Sans énergie/poids, PAID peut être déterminé mais aucun montant n'est fourni. Pas d'interpolation entre paliers ni de calcul multi-journées. `pricing.status` décrit le début de la période ; `validUntil` sa prochaine transition ou la fin demandée. `amount`, s'il existe, concerne la durée évaluée, arrêtée avant une interdiction future. Pour une décision UNKNOWN, le prix de voirie reste UNKNOWN. Une interdiction sur une position documentée peut coexister avec PAID/FREE : le tarif ne change jamais l’autorisation.
 
 Non intégrés : droits résidents/artisans, situations sociales, dérogations, NOCTURNE promenade Annie et Régis Neyret, voies partielles, places réservées non caractérisées, séjours >24h ou >600 minutes payantes. Le modèle d'exception datée existe et est testé ; aucune éligibilité n'est présumée. L'article 11 imposant de vérifier la signalisation chaque 24h n'est pas converti en droit de stationner 24h.
 
@@ -117,3 +117,8 @@ CI principale : migrations 001–004, tests SQL, intégrations antérieures et L
 Workflow manuel **Lyon live audit (manual)** : trois requêtes contrôlées (statique borné à 1 000 parkings, deux axes, deux observations). Indépendant de la CI principale. Le mapping peut être renseigné comme variable GitHub Actions de dépôt une fois vérifié. Les résultats réels sont séparés dans TEST_RESULTS.md.
 
 **READY FOR PHASE 4: NO** — nouvelle CI PostGIS en attente, aucune place réelle certifiée, accès et mapping temps réel restant à valider.
+
+
+## Correctif des intégrations Lyon
+
+Voir ADR-049 et PHASE3_INTEGRATION_FIX.md. Le simple paiement donne désormais ALLOWED + PAID, sans condition réglementaire artificielle. Les fixtures DiaLog actives/futures sont cohérentes avant leur parsing. Les deux échéances sont présentes dans la décision et, lorsqu'elles existent, en haut du DTO. 257 unités réussies ; les 58 intégrations restent à relancer dans GitHub après le résultat précédent 54 réussites / 4 échecs.

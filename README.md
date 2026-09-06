@@ -2,7 +2,7 @@
 
 Pilote Lyon : inventaire officiel des voies, couverture positive explicite, règles UNO sourcées, tarification séparée, parkings publics et service applicatif. L'architecture et le correctif d'idempotence DiaLog sont conservés. Voir [LYON.md](LYON.md), [LYON_AUDIT.md](LYON_AUDIT.md), [TEST_RESULTS.md](TEST_RESULTS.md) et [DELIVERY_PHASE_3.md](DELIVERY_PHASE_3.md).
 
-**249 tests unitaires passent dans Work.** La CI PHASE 2 est confirmée verte par l'utilisateur. La nouvelle CI PHASE 3 reste à exécuter. Les 96,58 % de rapprochement des axes ne certifient aucune place : **0 emplacement réel vérifié**. Le temps réel officiel renvoie HTTP 401 depuis Work. Ces limites empêchent encore une mise en service permettant d'autoriser du stationnement réel.
+**257 tests unitaires passent dans Work après le correctif des intégrations Lyon.** La CI PHASE 2 est confirmée verte par l'utilisateur. La CI PHASE 3 précédente a exécuté 58 intégrations : 54 réussies, 4 échouées. Le correctif reste à revalider sur GitHub. Voir [PHASE3_INTEGRATION_FIX.md](PHASE3_INTEGRATION_FIX.md). Les 96,58 % de rapprochement des axes ne certifient aucune place : **0 emplacement réel vérifié**. Le temps réel officiel renvoie HTTP 401 depuis Work. Ces limites empêchent encore une mise en service permettant d'autoriser du stationnement réel.
 
 ```text
 READY FOR PHASE 4: NO

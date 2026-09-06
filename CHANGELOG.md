@@ -1,3 +1,15 @@
+# Correctif ciblé PHASE 3 — intégrations Lyon
+
+- Corrige deux fixtures XML : dates actives/futures cohérentes avant le parsing, sans réactivation artificielle de règles expirées.
+- Sépare ALLOWED de PAID/FREE ; une interdiction spécifique continue de prévaloir sur la permission générale.
+- Expose mustLeaveBefore dans le DTO et vérifie la conservation des deux échéances.
+- Renforce les préconditions de sélection PostGIS des 58 intégrations existantes.
+- Ajoute 8 unités de régression : total 257 réussies localement.
+- Conserve le seuil 500ms ; journal et plan disponibles avant une éventuelle assertion de performance.
+- Validation runtime GitHub en attente ; aucune modification du parseur, de l'idempotence ou des migrations.
+
+---
+
 # PHASE 3 — 2026-09-06
 
 - Audit officiel Lyon, extraction contrôlée/versionnée de 1 142 voies et captures WFS réelles.
