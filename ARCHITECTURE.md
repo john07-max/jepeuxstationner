@@ -47,3 +47,14 @@ Le provider et le cache RAM actuel sont côté serveur Node. L'abstraction conso
 ## Extension PHASE 2
 
 Les packages existants sont conservés. `adapters/src/dialog` centralise transport XML, parser et DataSourceAdapter ; `domain/src/imported-rule.ts` représente une restriction persistable indépendante du fournisseur ; `database/src/dialog.ts` réalise transaction, lecture PostGIS et projection. Migration additive 003, requête dialog-at-position.sql, CLI sync-dialog. Pas de dépendance SQL/XML ajoutée au moteur. Voir DIALOG.md et ADR-026 à 036.
+
+
+## PHASE 3 — modules Lyon ajoutés
+
+- `domain/local-parking.ts` : couverture positive, véhicule, tarif, parking, DTO.
+- `adapters/lyon` : inventaire officiel normalisé, rapprochement, calendrier, prix UNO, adaptateur DataSourceAdapter, statique et observation temps réel à mapping revu.
+- `database/lyon.ts` + migration 004 : inventaires idempotents, preuves de places indépendantes, requêtes ST_Covers / geography, stockage des observations.
+- `application/check-parking.ts` : géocodage → résolution d'une place → adaptateurs → décision → tarification → parkings si interdit. `application/lyon.ts` compose les implémentations PostgreSQL existantes.
+- `apps/demo` : commandes sync:lyon:*, lyon:coverage et check:parking. Aucune UI.
+
+Le moteur central ajoute seulement scope=GENERAL et une priorité générique limitée des interdictions spécifiques. Aucune constante Lyon dans ce moteur. Les tables historiques, DiaLog et le géocodage restent inchangés. Aucun axe géographique ne devient automatiquement une place vérifiée. Le stockage ne conserve ni adresse soumise ni profil utilisateur.

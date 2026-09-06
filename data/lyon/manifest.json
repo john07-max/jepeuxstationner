@@ -1,0 +1,20 @@
+{
+  "auditDate": "2026-09-06",
+  "files": [
+    {
+      "file": "streets.json",
+      "sha256": "dca085fb8e118fa054297ae680f38f0a0c4fa3e01773321e6ec12bc7607b5dc0",
+      "bytes": 227739
+    },
+    {
+      "file": "roads.geojson",
+      "sha256": "e4c77b8856cce3f811fa6bad89d9e3098e3573718aa39749234962d97a07e40a",
+      "bytes": 7395189
+    },
+    {
+      "file": "facilities.geojson",
+      "sha256": "eda02a2a964f1f490edc40a25a03b00020bca5119579a331492f34d26c724be2",
+      "bytes": 188115
+    }
+  ]
+}

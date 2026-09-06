@@ -1,0 +1,74 @@
+{
+  "roads": {
+    "title": "Tronçons de la trame viaire de la Métropole de Lyon",
+    "licence": "lov2",
+    "metadataUrl": "https://www.data.gouv.fr/api/1/datasets/troncons-de-la-trame-viaire-de-la-metropole-de-lyon/",
+    "retrievedAt": "2026-09-06T00:00:00Z",
+    "resources": [
+      {
+        "format": "pdf",
+        "url": "https://minio.beta.recette.data.grandlyon.com/assets/documents/3a_-_Voies_et_adresses.pdf"
+      },
+      {
+        "format": "shp",
+        "url": "https://data.grandlyon.com/geoserver/metropole-de-lyon/ows?SERVICE=WFS&VERSION=2.0.0&request=GetFeature&typename=metropole-de-lyon:adr_voie_lieu.adraxevoie&outputFormat=shape-zip&SRSNAME=EPSG:2154"
+      },
+      {
+        "format": "geojson",
+        "url": "https://data.grandlyon.com/geoserver/metropole-de-lyon/ows?SERVICE=WFS&VERSION=2.0.0&request=GetFeature&typename=metropole-de-lyon:adr_voie_lieu.adraxevoie&outputFormat=application/json&SRSNAME=EPSG:4326"
+      },
+      {
+        "format": "csv",
+        "url": "https://data.grandlyon.com/geoserver/metropole-de-lyon/ows?SERVICE=WFS&VERSION=2.0.0&request=GetFeature&typename=metropole-de-lyon:adr_voie_lieu.adraxevoie&outputFormat=CSV&SRSNAME=EPSG:4326"
+      }
+    ]
+  },
+  "facilities-static": {
+    "title": "Parkings des opérateurs de stationnements de la Métropole de Lyon",
+    "licence": "lov2",
+    "metadataUrl": "https://www.data.gouv.fr/api/1/datasets/parkings-des-operateurs-de-stationnements-de-la-metropole-de-lyon/",
+    "retrievedAt": "2026-09-06T00:00:00Z",
+    "resources": [
+      {
+        "format": "csv",
+        "url": "https://download.data.grandlyon.com/files/rdata/pvo_patrimoine_voirie.pvoparking/Parking_Metropole_de_Lyon.csv"
+      },
+      {
+        "format": "shp",
+        "url": "https://data.grandlyon.com/geoserver/metropole-de-lyon/ows?SERVICE=WFS&VERSION=2.0.0&request=GetFeature&typename=metropole-de-lyon:parkings-des-operateurs-de-stationnements-de-la-metropole-de-lyon&outputFormat=shape-zip&SRSNAME=EPSG:2154"
+      },
+      {
+        "format": "geojson",
+        "url": "https://data.grandlyon.com/geoserver/metropole-de-lyon/ows?SERVICE=WFS&VERSION=2.0.0&request=GetFeature&typename=metropole-de-lyon:parkings-des-operateurs-de-stationnements-de-la-metropole-de-lyon&outputFormat=application/json&SRSNAME=EPSG:4326"
+      },
+      {
+        "format": "csv",
+        "url": "https://data.grandlyon.com/geoserver/metropole-de-lyon/ows?SERVICE=WFS&VERSION=2.0.0&request=GetFeature&typename=metropole-de-lyon:parkings-des-operateurs-de-stationnements-de-la-metropole-de-lyon&outputFormat=CSV&SRSNAME=EPSG:4326"
+      }
+    ]
+  },
+  "facilities": {
+    "title": "Parkings de la Métropole de Lyon - disponibilités temps réel",
+    "licence": "other-pd",
+    "metadataUrl": "https://www.data.gouv.fr/api/1/datasets/parkings-de-la-metropole-de-lyon-disponibilites-temps-reel/",
+    "retrievedAt": "2026-09-06T00:00:00Z",
+    "resources": [
+      {
+        "format": "xml",
+        "url": "https://download.data.grandlyon.com/files/rdata/pvo_patrimoine_voirie.pvoparkingtr/Etat_Parkings.xml"
+      },
+      {
+        "format": "shp",
+        "url": "https://data.grandlyon.com/geoserver/metropole-de-lyon/ows?SERVICE=WFS&VERSION=2.0.0&request=GetFeature&typename=metropole-de-lyon:parkings-de-la-metropole-de-lyon-disponibilites-temps-reel-v2&outputFormat=shape-zip&SRSNAME=EPSG:2154"
+      },
+      {
+        "format": "geojson",
+        "url": "https://data.grandlyon.com/geoserver/metropole-de-lyon/ows?SERVICE=WFS&VERSION=2.0.0&request=GetFeature&typename=metropole-de-lyon:parkings-de-la-metropole-de-lyon-disponibilites-temps-reel-v2&outputFormat=application/json&SRSNAME=EPSG:4326"
+      },
+      {
+        "format": "csv",
+        "url": "https://data.grandlyon.com/geoserver/metropole-de-lyon/ows?SERVICE=WFS&VERSION=2.0.0&request=GetFeature&typename=metropole-de-lyon:parkings-de-la-metropole-de-lyon-disponibilites-temps-reel-v2&outputFormat=CSV&SRSNAME=EPSG:4326"
+      }
+    ]
+  }
+}

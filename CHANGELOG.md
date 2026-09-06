@@ -1,3 +1,17 @@
+# PHASE 3 — 2026-09-06
+
+- Audit officiel Lyon, extraction contrôlée/versionnée de 1 142 voies et captures WFS réelles.
+- Rapprochement axes 1 103/1 142 ; aucune place de production certifiée.
+- Domaine couverture/véhicule/tarifs/parkings et service applicatif.
+- Calendrier France, règles visiteurs UNO, tarification progressive séparée.
+- Migration 004, imports locaux idempotents, proximité PostGIS et observations séparées.
+- Priorité générique limitée des interdictions spécifiques sur permissions générales ; DiaLog conservé.
+- 54 nouveaux tests unitaires, 17 intégrations PostgreSQL préparées et 3 contrôles live Lyon.
+- CI principale sans dépendance aux endpoints métier ; audit Lyon manuel distinct.
+- Hors réseau : 249 tests verts. PostGIS non exécuté dans Work ; temps réel live HTTP 401. Pas de PHASE 4.
+
+---
+
 # Changelog
 
 ## 0.0.1 — 2026-09-05

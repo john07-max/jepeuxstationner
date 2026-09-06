@@ -1,0 +1,63 @@
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+
+> jepeuxstationner@0.0.1 test:lyon
+> npm run build && node --test dist/tests/lyon*.test.js
+
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+
+> jepeuxstationner@0.0.1 build
+> tsc -p tsconfig.json
+
+✔ Lyon A documented Monday 14h is conditional payment, no invented amount (10.815099ms)
+✔ Lyon B documented Sunday is allowed and free (0.294995ms)
+✔ Lyon uncovered -> UNKNOWN even without DiaLog (0.204942ms)
+✔ Lyon unverified bay -> UNKNOWN even without DiaLog (0.104294ms)
+✔ Lyon ambiguous -> UNKNOWN even without DiaLog (0.173636ms)
+✔ Lyon nocturne -> UNKNOWN even without DiaLog (0.141228ms)
+✔ Lyon stale coverage fails closed (0.220785ms)
+✔ Generic specific ban overrides general permission, future deadline retained (0.646642ms)
+✔ Specific official contradictions still yield UNKNOWN (0.410194ms)
+✔ French calendar Monday (0.370386ms)
+✔ French calendar Sunday (0.126336ms)
+✔ French calendar Easter Monday (0.083152ms)
+✔ French calendar May 1 (0.069452ms)
+✔ French calendar holiday eve (0.060108ms)
+✔ French calendar visitor August (0.115981ms)
+✔ French calendar August 15 (0.116812ms)
+✔ French calendar 19h boundary (0.06118ms)
+✔ French calendar 9h boundary (0.059999ms)
+✔ Holiday calculation changes year without a manually fixed list (1.900038ms)
+✔ Overnight holiday eve becomes free through next morning (0.715915ms)
+✔ Sunday to Monday crosses midnight and 9h payment boundary (0.187707ms)
+✔ Paris DST Sunday remains free across clock change (0.163341ms)
+✔ Dated eligible exception overrides general payment only during its interval (0.219604ms)
+✔ Conflicting dated exceptions rejected (0.251761ms)
+✔ Unsupported long stays fail closed (0.305921ms)
+✔ Visitor class THERMAL 1000 (0.079747ms)
+✔ Visitor class THERMAL 1525 (0.041811ms)
+✔ Visitor class THERMAL 1526 (0.031817ms)
+✔ Visitor class PLUGIN_HYBRID 1900 (0.029874ms)
+✔ Visitor class PLUGIN_HYBRID 1901 (0.062542ms)
+✔ Visitor class ELECTRIC 2100 (0.05413ms)
+✔ Visitor class ELECTRIC 2101 (0.060278ms)
+✔ Unknown vehicle never invents class or price (0.098015ms)
+✔ Published standard one-hour price, no interpolation at 45 minutes (0.234075ms)
+✔ Pricing remains UNKNOWN outside verified coverage (0.087449ms)
+✔ Street normalization accents apostrophes and type variants (0.459166ms)
+✔ Multiple segments of one official street id match, no place is certified (0.303807ms)
+✔ Distinct official street identities sharing a name are ambiguous (0.117423ms)
+✔ Different arrondissement is not guessed (0.098505ms)
+✔ Partial regulations and future extensions not auto-eligible (0.146776ms)
+✔ Controlled annex has 1142 unique entries and quarantines 4 trailing pages (17.787728ms)
+✔ Actual official Lyon roads snapshot passes strict schema and completeness (49.379444ms)
+✔ Official static facilities normalize without invented availability or hours (3.307832ms)
+✔ Truncated facility collections are rejected, preventing false deactivation (0.222738ms)
+✔ Freshness threshold, future clocks, invalid counts and unknown values (2.463829ms)
+ℹ tests 45
+ℹ suites 0
+ℹ pass 45
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 272.722782

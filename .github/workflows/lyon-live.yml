@@ -1,0 +1,28 @@
+name: Lyon live audit (manual)
+on:
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  audit:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    env:
+      LYON_REALTIME_MAPPING: ${{ vars.LYON_REALTIME_MAPPING }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+          cache: npm
+      - run: npm ci
+      - name: Three controlled official requests
+        shell: bash
+        run: |
+          mkdir -p artifacts
+          npm run test:lyon:live 2>&1 | tee artifacts/lyon-live.log
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: lyon-live-${{ github.run_id }}
+          path: artifacts/

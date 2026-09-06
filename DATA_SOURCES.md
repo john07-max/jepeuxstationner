@@ -29,3 +29,12 @@ Les fixtures HTTP des tests unitaires sont synthétiques. Les tests live consult
 ## DiaLog connecté en PHASE 2
 
 Source officielle vérifiée : https://dialog.beta.gouv.fr/api/regulations.xml ; DATEX II 3, filtres includePermanent=true, includeTemporary=true, includeExpired=false. Réutilisation sous Licence Ouverte 2.0, attribution DiaLog et date de récupération. Origine officielle, valeur informative ; l'arrêté et la signalisation prévalent. Inventaire partiel, aucune autorisation déduite d'une absence. Contrat, liens officiels, observations réelles et limites dans DIALOG.md.
+
+
+## PHASE 3 — sources Lyon auditées
+
+Audit détaillé dans LYON_AUDIT.md ; endpoints et licences dans data/lyon/sources.json. Captures officielles SHA256 dans data/lyon/manifest.json : annexe municipale (1 142 voies interprétées), WFS trame viaire Métropole (7 964 tronçons Lyon), WFS parkings statiques Métropole (189 éléments). Les deux WFS structurés sont réutilisés sous LO 2.0 avec attribution Métropole de Lyon. Les pages municipales sont isolées dans une configuration versionnée ; aucun scraping par recherche.
+
+La donnée temps réel n'est pas intégrée en production : HTTP 401 constaté, licence metadata Other (Public Domain), champs d'observation non confirmés. Le test live manuel doit observer le schéma avant renseignement du mapping explicite. Les tests hors réseau utilisent des observations fictives identifiées comme telles.
+
+Le rapprochement de noms et axes obtient 96,58 %, mais aucune place de stationnement n'est certifiée. Le registre local garde URL, licence, version et date lorsque disponibles ; les dates de publication inconnues ne sont pas inventées. Lire LYON.md pour les critères de fraîcheur et les règles non intégrées.

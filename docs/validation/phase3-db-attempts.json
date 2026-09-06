@@ -1,0 +1,22 @@
+[
+  {
+    "command": "npm run db:check",
+    "exitCode": 1
+  },
+  {
+    "command": "npm run db:migrate",
+    "exitCode": 1
+  },
+  {
+    "command": "npm run test:db",
+    "exitCode": 1
+  },
+  {
+    "command": "npm run test:integration",
+    "exitCode": 1
+  },
+  {
+    "command": "npm run db:explain",
+    "exitCode": 1
+  }
+]

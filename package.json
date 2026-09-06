@@ -30,7 +30,13 @@
     "demo:geocode": "npm run build && node --use-env-proxy --env-file-if-exists=.env dist/apps/demo/src/geocode.js",
     "sync:dialog": "npm run build && node --use-env-proxy --env-file-if-exists=.env dist/apps/demo/src/sync-dialog.js",
     "test:dialog": "npm run build && node --test dist/tests/dialog.test.js",
-    "test:dialog:live": "npm run build && node --use-env-proxy --test dist/tests/live/dialog.live.test.js"
+    "test:dialog:live": "npm run build && node --use-env-proxy --test dist/tests/live/dialog.live.test.js",
+    "sync:lyon:parking-rules": "npm run build && node --use-env-proxy --env-file-if-exists=.env dist/apps/demo/src/sync-lyon.js parking-rules",
+    "sync:lyon:facilities": "npm run build && node --use-env-proxy --env-file-if-exists=.env dist/apps/demo/src/sync-lyon.js facilities",
+    "lyon:coverage": "npm run build && node --use-env-proxy dist/apps/demo/src/sync-lyon.js coverage",
+    "test:lyon": "npm run build && node --test dist/tests/lyon*.test.js",
+    "test:lyon:live": "npm run build && node --use-env-proxy --test --test-concurrency=1 dist/tests/live/lyon.live.test.js",
+    "check:parking": "npm run build && node --use-env-proxy --env-file-if-exists=.env dist/apps/demo/src/check-parking.js"
   },
   "devDependencies": {
     "@types/node": "24.10.1",
@@ -40,6 +46,7 @@
     "typescript": "5.9.3"
   },
   "dependencies": {
+    "date-holidays": "3.36.0",
     "sax": "1.6.1"
   }
 }

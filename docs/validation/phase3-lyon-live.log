@@ -1,0 +1,33 @@
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+
+> jepeuxstationner@0.0.1 test:lyon:live
+> npm run build && node --use-env-proxy --test --test-concurrency=1 dist/tests/live/lyon.live.test.js
+
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+
+> jepeuxstationner@0.0.1 build
+> tsc -p tsconfig.json
+
+{"event":"lyon.live.static","count":189,"public":32}
+✔ LIVE Lyon official static facilities structure and source date (10207.350874ms)
+✔ LIVE Lyon road schema: two features only (8731.033674ms)
+✖ LIVE Lyon realtime access, reviewed schema and freshness (8766.846212ms)
+ℹ tests 3
+ℹ suites 0
+ℹ pass 2
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 27803.742853
+
+✖ failing tests:
+
+test at dist/tests/live/lyon.live.test.js:12:1
+✖ LIVE Lyon realtime access, reviewed schema and freshness (8766.846212ms)
+  Error: Grand Lyon HTTP 401
+      at fetchOfficialJson (file:///workspace/scratch/99fb5d1b333a/jepeuxstationner/dist/packages/adapters/src/lyon/facilities.js:70:15)
+      at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+      at async TestContext.<anonymous> (file:///workspace/scratch/99fb5d1b333a/jepeuxstationner/dist/tests/live/lyon.live.test.js:13:18)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7)

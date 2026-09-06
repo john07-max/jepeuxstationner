@@ -1,4 +1,4 @@
-name: CI - PostGIS geocoding DiaLog
+name: CI - PostGIS geocoding DiaLog Lyon
 on:
   push:
   pull_request:
@@ -35,20 +35,22 @@ jobs:
         run: npm run db:wait 2>&1 | tee artifacts/db-wait.log
       - name: Verify installed PostGIS extension and version
         run: npm run db:check 2>&1 | tee artifacts/postgis-version.log
-      - name: Apply all migrations including DiaLog
+      - name: Apply all migrations including DiaLog and Lyon
         run: npm run db:migrate 2>&1 | tee artifacts/migrations.log
       - name: Check migration replay is a no-op
         run: npm run db:migrate 2>&1 | tee artifacts/migrations-replay.log
       - name: SQL and PostGIS tests
         run: npm run test:db 2>&1 | tee artifacts/sql-tests.log
-      - name: Real database integrations including DiaLog XML to engine
+      - name: Real database integrations including DiaLog and Lyon XML to engine
         run: npm run test:integration 2>&1 | tee artifacts/integration.log
       - name: Spatial query EXPLAIN ANALYZE BUFFERS
         run: npm run db:explain 2>&1 | tee artifacts/explain.log
       - name: TypeScript strict
         run: npm run typecheck 2>&1 | tee artifacts/typecheck.log
-      - name: Unit tests including offline geocoding and DiaLog
+      - name: Unit tests including offline geocoding DiaLog and Lyon
         run: npm test 2>&1 | tee artifacts/unit-tests.log
+      - name: Reproduce official Lyon street matching offline
+        run: npm run lyon:coverage -- --file data/lyon/roads.geojson 2>&1 | tee artifacts/lyon-coverage.log
       - name: Fictional demo
         run: npm run demo 2>&1 | tee artifacts/demo.log
       - name: Collect database container logs

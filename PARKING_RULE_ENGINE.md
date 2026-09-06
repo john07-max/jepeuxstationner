@@ -40,3 +40,12 @@ Les tests DB → moteur sont dans tests/integration, séparés des tests locaux.
 Snapshot facultatif purpose=RESTRICTIONS : inventaire incomplet accepté exclusivement pour des FORBIDDEN d'origine officielle et de valeur informative. Jamais ALLOWED à partir d'une telle source, même avec complete=true. Les autres snapshots gardent les contraintes historiques de couverture. Conflits, sources périmées et règles non supportées donnent UNKNOWN. Le moteur ignore DATEX ; l'adaptateur filtre la géométrie et borne les périodes.
 
 allowedUntil est un alias de mustLeaveBefore, présent seulement lorsque la durée commence par une permission explicite puis rencontre une interdiction. Une restriction DiaLog future seule conserve UNKNOWN. Voir DIALOG.md pour la qualification du scénario B.
+
+
+## PHASE 3 — permission générale et service applicatif
+
+Une règle peut explicitement porter `scope: GENERAL`. Dans un segment temporel, une interdiction officielle spécifique écarte uniquement les permissions générales. Une contradiction entre prescriptions spécifiques conserve UNKNOWN ; la source secondaire ne remplace pas une prescription officielle. Aucun traitement par nom de ville.
+
+L'adaptateur Lyon ne produit une permission générale qu'après preuve d'un emplacement matérialisé non ambigu, d'une voie entière documentée et d'une fraîcheur acceptable. Sans cela, UNKNOWN, même si DiaLog est vide. Le calendrier devient des intervalles normalisés : CONDITIONAL pendant le paiement requis, ALLOWED pendant la gratuité si la couverture le justifie. Une interdiction future conserve allowedUntil.
+
+Le prix est évalué par LyonParkingPricingEngine, hors du moteur d'autorisation. L'orchestration CheckParkingService se charge du géocodage et des trois parkings proches lorsque FORBIDDEN. Une panne de recherche de parkings ne supprime pas l'interdiction. Voir LYON.md pour les limites UNO, résident, NOCTURNE et durées.

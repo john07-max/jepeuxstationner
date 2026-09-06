@@ -1,11 +1,23 @@
-# JePeuxStationner — PHASE 2 : restrictions DiaLog
+# JePeuxStationner — PHASE 3 : pilote Lyon
 
-Le flux officiel DATEX II 3 est connecté : parsing en flux, normalisation, import transactionnel PostGIS et adaptateur vers le moteur. Le géocodage PHASE 1 est conservé. Voir [DIALOG.md](DIALOG.md), [TEST_RESULTS.md](TEST_RESULTS.md) et [DELIVERY_PHASE_2.md](DELIVERY_PHASE_2.md).
+Pilote Lyon : inventaire officiel des voies, couverture positive explicite, règles UNO sourcées, tarification séparée, parkings publics et service applicatif. L'architecture et le correctif d'idempotence DiaLog sont conservés. Voir [LYON.md](LYON.md), [LYON_AUDIT.md](LYON_AUDIT.md), [TEST_RESULTS.md](TEST_RESULTS.md) et [DELIVERY_PHASE_3.md](DELIVERY_PHASE_3.md).
+
+**249 tests unitaires passent dans Work.** La CI PHASE 2 est confirmée verte par l'utilisateur. La nouvelle CI PHASE 3 reste à exécuter. Les 96,58 % de rapprochement des axes ne certifient aucune place : **0 emplacement réel vérifié**. Le temps réel officiel renvoie HTTP 401 depuis Work. Ces limites empêchent encore une mise en service permettant d'autoriser du stationnement réel.
 
 ```text
-READY FOR PHASE 3: NO
-Reason: Phase 2 PostgreSQL/PostGIS integration and GitHub CI validation pending.
+READY FOR PHASE 4: NO
+Reason: Phase 3 PostgreSQL/PostGIS CI pending; verified parking-space coverage absent; realtime access/schema unverified.
 ```
+
+## Essayer le pilote hors réseau
+
+```bash
+npm ci
+npm run validate
+npm run lyon:coverage -- --file data/lyon/roads.geojson
+```
+
+Les commandes de synchronisation, le service check:parking et la configuration sont documentés dans LYON.md. Aucune interface web finale n'est ajoutée.
 
 ## Essayer le géocodage
 
@@ -30,19 +42,19 @@ Remplacer les fichiers de votre copie locale par ceux de cette livraison, en con
 
 ```bash
 git add .
-git commit -m "Add Phase 2 DiaLog restrictions"
+git commit -m "Add Phase 3 Lyon pilot"
 git push
 ```
 
 Avec **GitHub Desktop** : copier le contenu du dossier extrait dans votre dossier local existant (ne pas créer un deuxième dossier jepeuxstationner à l'intérieur), accepter le remplacement des fichiers, ouvrir ce dépôt dans Desktop, vérifier les changements, saisir un résumé, cliquer **Commit to main**, puis **Push origin**. Conserver votre dossier `.git` et votre `.env`.
 
-Ouvrir Actions et attendre le workflow principal PostgreSQL/PostGIS. Il exécutera aussi les tests DiaLog hors réseau et les 18 nouveaux tests PostgreSQL DiaLog. Lancer **DiaLog live (manual) → Run workflow** pour le contrôle officiel séparé. Ensuite, lancer facultativement **Geocoding live - manual only → Run workflow** pour refaire les cinq contrôles officiels depuis GitHub. Renvoyer les archives de résultats et le lien d'exécution ; les timeouts rencontrés depuis Work ne prouvent pas une panne générale de l'API.
+Ouvrir **Actions** et attendre **CI - PostGIS geocoding DiaLog Lyon**. Le workflow applique les quatre migrations et exécute les 58 tests d'intégration définis, dont 17 nouveaux scénarios Lyon. Le workflow distinct **Lyon live audit (manual)** peut ensuite être lancé avec **Run workflow** ; son contrôle temps réel échouera tant que l'accès et le mapping n'ont pas été vérifiés. Renvoyer le lien d'exécution et les archives de logs. Les étapes sont détaillées dans DELIVERY_PHASE_3.md.
 
 La configuration du géocodage est ajoutée à `.env.example`. Le cache de résultats dure 24 h (500 entrées maximum), les résultats vides 30 s, les erreurs ne sont pas cachées. Débit par défaut 5/s dans un processus ; plusieurs réplicas nécessiteront un budget commun. Voir GEOCODING.md pour les limites et toutes les variables.
 
 # Historique et validation PostgreSQL/PostGIS
 
-Les CI PHASES 0/0.5/1 sont confirmées vertes par l'utilisateur dans le brief PHASE 2. Les changements DiaLog restent à revalider.
+Les CI PHASES 0/0.5/1/2 sont confirmées vertes par l'utilisateur dans le brief PHASE 3. Les changements Lyon restent à revalider.
 
 ```text
 PHASE 0/0.5: validated according to user's GitHub Actions confirmation.
@@ -130,7 +142,7 @@ git push -u origin main
 
 Si Git demande votre identité, définir `git config user.name "Votre nom"` et `git config user.email "Votre email GitHub"`, puis reprendre à `git commit`. S'authentifier via le navigateur si Git le propose. Ne pas coller de mot de passe ou de jeton dans le code du projet. Si vous utilisez un dépôt existant avec origin déjà défini, vérifier `git remote -v` et réutiliser la bonne URL au lieu de recréer origin.
 
-5. **Ouvrir Actions.** Sur la page du dépôt, cliquer l'onglet **Actions**. Un workflow nommé **CI - PostGIS geocoding DiaLog** doit démarrer automatiquement après le push. Si GitHub propose d'activer les workflows, les activer. Le workflow se lance également à chaque pull request.
+5. **Ouvrir Actions.** Sur la page du dépôt, cliquer l'onglet **Actions**. Un workflow nommé **CI - PostGIS geocoding DiaLog Lyon** doit démarrer automatiquement après le push. Si GitHub propose d'activer les workflows, les activer. Le workflow se lance également à chaque pull request.
 6. **Lancer manuellement si nécessaire.** Dans Actions, cliquer le nom du workflow à gauche, puis **Run workflow**, sélectionner `main`, puis confirmer **Run workflow**. Le fichier doit être présent sur la branche par défaut pour voir ce bouton.
 7. **Ouvrir le job** `PostgreSQL 17 / PostGIS 3.5 validation`. Vérifier spécialement les étapes « Verify installed PostGIS extension and version », « Apply all migrations including DiaLog », « SQL and PostGIS tests », « Real database integrations including DiaLog XML to engine » et « Spatial query EXPLAIN ANALYZE BUFFERS ».
 8. **Reconnaître le succès.** L'exécution complète et toutes les étapes de validation doivent être vertes. Une exécution en cours, annulée, rouge ou une étape DB ignorée n'est pas une validation réussie. Les logs doivent montrer une version PostGIS réelle et les résultats des tests. Le statut de ce dépôt reste en attente jusqu'à examen de cette preuve.

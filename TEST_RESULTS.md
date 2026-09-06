@@ -1,3 +1,42 @@
+# Résultats PHASE 3 — 6 septembre 2026
+
+La CI PHASE 2 verte a été confirmée par l'utilisateur dans le nouveau brief. Ce constat autorise PHASE 3 mais ne valide pas ses nouveaux changements. Aucun serveur PostgreSQL/Docker n'a été installé dans Work.
+
+## TESTS EXÉCUTÉS DANS L'ENVIRONNEMENT WORK
+
+| Commande / contrôle | Résultat réel |
+| --- | --- |
+| `npm ci` | code 0, 41 packages installés depuis le lockfile |
+| `npm run typecheck` | code 0 |
+| `npm test` | **249/249 réussis**, 0 échec, 0 ignoré ; 195 antérieurs + 54 nouveaux |
+| `npm run demo` | code 0, démonstration fictive |
+| `npm run lyon:coverage -- --file data/lyon/roads.geojson` | code 0 ; 1 103/1 142 axes rapprochés, 96,58 %, 0 ambigu, 39 sans correspondance, 0 place certifiée |
+| Extraction PDF contrôlée | réussie : 1 142 lignes uniques pages 1–62 ; pages 63–66 quarantainées |
+| `npm run test:lyon:live` | **code 1 : 2 réussis / 1 échoué**. Statique et axes accessibles ; temps réel HTTP 401 |
+
+Les logs `docs/validation/phase3-*.log` constituent les preuves. Une première passe des tests Lyon a révélé des capacités -1 dans le flux officiel : elles sont maintenant inconnues, jamais zéro. Une erreur TypeScript readonly dans une fixture d'intégration a été corrigée avant les résultats finaux ci-dessus.
+
+**Tentatives de commandes DB, sans exécution PostgreSQL :** db:check, db:migrate, test:db, test:integration et db:explain ont réellement été lancées et ont toutes renvoyé **code 1**, faute de DATABASE_URL. La compilation d'intégration réussit, puis les fichiers de tests échouent à leur précondition. Ce ne sont pas des scénarios SQL exécutés, ni des validations PostGIS. Voir phase3-db-attempts.json et les logs correspondants.
+
+## TESTS PRÉPARÉS POUR GITHUB ACTIONS MAIS NON ENCORE EXÉCUTÉS
+
+- PostgreSQL 17 / PostGIS 3.5 et vérification explicite de l'extension.
+- Migrations 001–004, rejouabilité et contraintes SQL.
+- **58 tests d'intégration définis** : 41 antérieurs + **17 Lyon**. A–F, vraie sélection géospatiale → moteur, fraîcheur, bordure, ambiguïté, lon/lat, idempotence, modification métier, désactivation, dry-run, rollback, proximité et observations.
+- EXPLAIN (ANALYZE, BUFFERS) existant et nouveau plan proximité sur 20 003 parkings fictifs ; aucun index forcé.
+- Mesure du flux hors réseau position → PostgreSQL → décision → parkings, objectif <500ms. **Aucune durée PostGIS mesurée localement.**
+
+Total défini : **249 unités + 58 intégrations + 9 live = 316 tests**, hors assertions SQL. Sur les 9 tests live, seuls les 3 nouveaux Lyon ont été relancés pendant PHASE 3 ; les 6 anciens ne sont pas annoncés exécutés à nouveau. Le total défini n'est pas un total réussi.
+
+```text
+READY FOR PHASE 4: NO
+Reason: Phase 3 PostgreSQL/PostGIS CI pending; verified parking-space coverage absent; realtime access/schema unverified.
+```
+
+---
+
+# Historique antérieur — résultats valables au moment de leur rédaction
+
 # Résultats du correctif d'idempotence — 2026-09-06
 
 ## TESTS EXÉCUTÉS DANS L'ENVIRONNEMENT WORK

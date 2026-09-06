@@ -25,6 +25,8 @@ export interface ParkingRule extends Period {
   readonly cityId: string;
   readonly zoneId: string;
   readonly effect: Exclude<ParkingStatus, 'UNKNOWN'>;
+  /** Explicit general permission; a specific official prohibition can override it. */
+  readonly scope?: 'GENERAL';
   readonly conditions: readonly string[];
   readonly source: SourceEvidence;
 }

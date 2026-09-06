@@ -1,5 +1,5 @@
 import type { DataSourceAdapter, ParkingDecision, ParkingQuery, RuleSnapshot, SourceEvidence, DecisionSegment } from '../../domain/src/index.js';
-export const ENGINE_VERSION = '0.0.3';
+export const ENGINE_VERSION = '0.0.4';
 const notice = 'Résultat indicatif. La signalisation sur place et les arrêtés officiels prévalent.';
 // Require an explicit offset; never interpret the host machine timezone.
 export function instant(value: string): number {
@@ -48,7 +48,9 @@ export class ParkingDecisionEngine {
     for (let i=0; i<boundaries.length-1; i++) {
       const a=boundaries[i]!, b=boundaries[i+1]!;
       const active = rules.filter(r => instant(r.start) <= a && instant(r.end) >= b);
-      const official = active.filter(r => r.source.authority === 'OFFICIAL');
+      const candidates = active.filter(r => r.source.authority === 'OFFICIAL');
+      const specificBan = candidates.some(r => r.effect === 'FORBIDDEN' && r.scope !== 'GENERAL');
+      const official = candidates.filter(r => !(specificBan && r.scope === 'GENERAL' && r.effect !== 'FORBIDDEN'));
       const effects = new Set(official.map(r => r.effect));
       // No invented hierarchy between official signage and an official order.
       const status = effects.size === 1 ? official[0]!.effect : 'UNKNOWN';
