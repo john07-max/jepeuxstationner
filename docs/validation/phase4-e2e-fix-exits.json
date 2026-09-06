@@ -1,0 +1,8 @@
+{
+  "integration": 1,
+  "e2e": 1,
+  "db": 1,
+  "validate-db": 1,
+  "demo": 0,
+  "coverage": 0
+}

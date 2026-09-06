@@ -128,3 +128,7 @@ Huit nouveaux tests offline, les 58 intégrations conservées et renforcées. Re
 - « Demain matin » signifie 10 h Paris le jour suivant ; la limite produit 24 h reste applicable. Aucun allongement silencieux pour faire passer la période.
 - Lanceur développement charge .env et transmet les arguments Vite. Démo uniquement sur activation explicite ; entrée production impose DATABASE_URL.
 - CI historique conservée et enrichie du build, Chromium et E2E hors réseau. Nouvelle intégration HTTP → PostGIS → moteur avec seuil 500 ms, setup exclu. Aucune augmentation des seuils ni index forcé.
+
+## PHASE 4 — correction ciblée des tests Playwright
+
+Audit : autocomplete comptait les options du véhicule via un locator global ; carte déjà différée par React.lazy et montage après interaction. Produit inchangé. Le test clavier dispose d'une fixture HTTP déterministe de deux adresses et d'un locator listbox ; il contrôle la suggestion sélectionnée et ses deux coordonnées. Le test carte vérifie absence avant clic, rendu et marqueurs après clic, sans dépendance à un nom de fichier réseau. Aucun changement de seuil, de bundling ou de source. Voir PHASE4_E2E_FIX.md pour preuves et limites de validation.

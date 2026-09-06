@@ -1,0 +1,4 @@
+Diagnostic complémentaire réellement exécuté : npm run test:e2e -- --max-failures=1
+Exit code: 1
+Error: browserType.launch: Executable doesn't exist at /root/.cache/ms-playwright/chromium_headless_shell-1243/chrome-headless-shell-linux64/chrome-headless-shell
+1 failed (browser launch), 20 did not run.

@@ -1,0 +1,70 @@
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+
+> jepeuxstationner@0.0.1 test:e2e
+> playwright test
+
+[WebServer] (node:99) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 21 tests using 1 worker
+
+(node:107) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘   1 tests/e2e/parking.spec.ts:6:1 › principal: address -> four hours -> forbidden -> three parkings (7ms)
+(node:119) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘   2 tests/e2e/parking.spec.ts:7:1 › conditional: future deadline is visible and preserved (5ms)
+(node:131) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘   3 tests/e2e/parking.spec.ts:8:1 › allowed remains separate from payment (4ms)
+(node:143) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘   4 tests/e2e/parking.spec.ts:9:1 › unknown is a safe explicit result, with alternatives (4ms)
+(node:155) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘   5 tests/e2e/parking.spec.ts:10:1 › service failure is an error, not business UNKNOWN (4ms)
+(node:167) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘   6 tests/e2e/parking.spec.ts:11:1 › outside Lyon explains pilot scope (3ms)
+(node:179) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘   7 tests/e2e/parking.spec.ts:12:1 › autocomplete minimum, keyboard and selected coordinates, two hours (3ms)
+(node:191) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘   8 tests/e2e/parking.spec.ts:44:1 › typing after selection invalidates result and selected address (2ms)
+(node:203) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘   9 tests/e2e/parking.spec.ts:45:1 › geolocation requested only after click; rejected permission stays usable (2ms)
+(node:215) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  10 tests/e2e/parking.spec.ts:46:1 › geolocation reverse keeps exact GPS position (3ms)
+(node:227) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  11 tests/e2e/parking.spec.ts:47:1 › map is lazy and renders locally after text result (2ms)
+(node:239) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  12 tests/e2e/parking.spec.ts:61:47 › responsive 320px: no horizontal overflow and comfortable controls (4ms)
+(node:251) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  13 tests/e2e/parking.spec.ts:61:47 › responsive 375px: no horizontal overflow and comfortable controls (2ms)
+(node:263) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  14 tests/e2e/parking.spec.ts:61:47 › responsive 390px: no horizontal overflow and comfortable controls (2ms)
+(node:275) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  15 tests/e2e/parking.spec.ts:61:47 › responsive 430px: no horizontal overflow and comfortable controls (3ms)
+(node:287) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  16 tests/e2e/parking.spec.ts:61:47 › responsive 768px: no horizontal overflow and comfortable controls (3ms)
+(node:299) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  17 tests/e2e/parking.spec.ts:61:47 › responsive 1280px: no horizontal overflow and comfortable controls (3ms)
+(node:311) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  18 tests/e2e/parking.spec.ts:62:71 › information page /sources (3ms)
+(node:323) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  19 tests/e2e/parking.spec.ts:62:71 › information page /confidentialite (3ms)
+(node:335) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  20 tests/e2e/parking.spec.ts:62:71 › information page /mentions-legales (3ms)

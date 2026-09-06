@@ -55,3 +55,7 @@ Ajout du flux officiel DiaLog DATEX 3, parser SAX sécurisé, normalisation des 
 ## PHASE 4 — API et interface mobile, validation CI en attente
 
 Ajout de apps/web, API check/autocomplete/reverse/health/ready, interface React mobile, GPS volontaire, durées Paris, quatre états et tarification séparée, alternatives, carte locale différée et pages d'information. Tests API/temps/E2E et intégration HTTP/PostGIS ; CI enrichie. Architecture métier et migrations précédentes conservées. Aucun déploiement ni PHASE 5.
+
+## PHASE 4 — correction des deux assertions E2E
+
+Locator autocomplete limité aux adresses, fixture dédiée déterministe, coordonnées exactes et durée contrôlées. Test carte fonctionnel avant/après clic. Aucun code produit changé ; 21 scénarios conservés. 296 tests locaux passent ; nouvelle CI en attente.

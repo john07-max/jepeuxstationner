@@ -1,3 +1,25 @@
+# Dernière validation — correctif E2E PHASE 4
+
+Le run précédent est annoncé par l'utilisateur : **19/21 E2E réussis, 2 échoués**, autres étapes vertes. Deux bugs de test corrigés, aucun fichier produit modifié. Voir [PHASE4_E2E_FIX.md](PHASE4_E2E_FIX.md).
+
+## TESTS EXÉCUTÉS DANS L'ENVIRONNEMENT WORK — correctif
+
+TypeScript réussi ; **296/296 tests locaux réussis** ; build production réussi ; demo et rapprochement Lyon hors réseau réussis. Logs `docs/validation/phase4-e2e-fix-*`.
+
+Commandes tentées mais bloquées : intégrations, test:db et validate:db faute de DATABASE_URL ; E2E faute de Chromium. Ces échecs de lancement ne constituent pas une exécution des assertions DB/navigateur. Aucune installation système PostgreSQL/Docker.
+
+## TESTS PRÉPARÉS POUR GITHUB ACTIONS MAIS NON ENCORE EXÉCUTÉS — correctif
+
+21 E2E dont les deux corrigés, 59 intégrations, PostgreSQL/PostGIS/migrations/SQL/EXPLAIN et CI complète à rejouer. Inventaire inchangé : 376 tests JS/TS plus assertions SQL. Aucun nouveau résultat GitHub du correctif disponible.
+
+READY FOR PHASE 5: NO
+
+Raison : CI complète après correction en attente.
+
+---
+
+Historique de livraison ci-dessous, conservé comme compte rendu antérieur.
+
 # Résultats PHASE 4 — 6 septembre 2026
 
 La CI des PHASES 0–3 est annoncée verte par l'utilisateur dans le cahier des charges PHASE 4. Aucun run GitHub PHASE 4 n'a été lancé ou observé ici. Historique conservé dans docs/validation/PHASE_3_RESULTS_ARCHIVE.md ; il ne décrit pas le statut actuel.

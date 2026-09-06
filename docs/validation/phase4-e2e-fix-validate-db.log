@@ -1,0 +1,11 @@
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+
+> jepeuxstationner@0.0.1 validate:db
+> npm run db:wait && npm run db:check && npm run db:migrate && npm run test:db && npm run test:integration && npm run db:explain
+
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+
+> jepeuxstationner@0.0.1 db:wait
+> node --env-file-if-exists=.env scripts/db.mjs wait
+
+Database validation FAILED (wait): DATABASE_URL is required. No database validation was performed.
