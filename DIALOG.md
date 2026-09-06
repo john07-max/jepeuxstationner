@@ -96,3 +96,7 @@ npm run validate:db
 ```
 
 Ne pas utiliser db:up dans Work sans Docker. La CI principale le fait sur GitHub. Le live DiaLog est un workflow manuel indépendant ; la CI principale n'appelle aucune API externe. Voir TEST_RESULTS.md pour les preuves et validations restantes.
+
+## Correctif d'idempotence du 6 septembre 2026
+
+La comparaison utilise désormais un fingerprint métier canonique ; l'ordre des propriétés JSONB n'influence plus updated. Les dates de récupération/observation/fraîcheur et sourceUpdatedAt n'y participent pas. La fraîcheur est actualisée séparément, uniquement si différente. Une règle strictement identique ne repasse plus par l'upsert métier. Dates d'application, géométrie, conditions et provenance fonctionnelle restent substantielles. Voir ADR-037 et IDEMPOTENCE_FIX.md. Aucune migration nécessaire.

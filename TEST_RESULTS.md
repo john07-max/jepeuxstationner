@@ -1,3 +1,31 @@
+# Résultats du correctif d'idempotence — 2026-09-06
+
+## TESTS EXÉCUTÉS DANS L'ENVIRONNEMENT WORK
+
+- npm run typecheck : code 0.
+- npm test : code 0, **195/195 tests réussis**, 0 ignoré ; 187 tests précédents conservés et 8 nouveaux tests de fingerprint.
+- npm run test:integration : compilation réussie, code 1 au démarrage, DATABASE_URL absente. **Aucun scénario PostgreSQL exécuté.**
+- npm run test:db : code 1, DATABASE_URL absente, aucune exécution SQL.
+- npm run db:check : code 1, même absence de configuration, aucune vérification runtime PostGIS.
+- npm run db:explain : code 1, aucune exécution EXPLAIN.
+
+Les logs de ces commandes sont dans docs/validation/idempotence-*.log. Une erreur TypeScript initiale dans un nouveau test (réaffectation d'une propriété readonly) a été corrigée avant ces résultats finaux. Aucun Docker/PostgreSQL installé, aucun test live rejoué pendant ce correctif.
+
+## TESTS PRÉPARÉS POUR GITHUB ACTIONS MAIS NON ENCORE EXÉCUTÉS
+
+Les 37 scénarios PostgreSQL précédents, dont l'idempotence initiale et la modification de date de fin, sont conservés. Quatre nouveaux scénarios vérifient récupération ultérieure, JSON réordonné, modification géométrique et absence effective de réécriture. Soit **41 tests d'intégration PostgreSQL définis**, à exécuter réellement dans CI avec tests SQL, PostGIS et EXPLAIN existants.
+
+Total défini : **195 offline + 41 intégration + 6 live = 242 tests** (hors assertions SQL). Ce total ne signifie pas 242 tests exécutés. La CI principale découvrira les nouveaux tests automatiquement, sans modification du workflow.
+
+```text
+READY FOR PHASE 3: NO
+Reason: Idempotence PostgreSQL runtime validation and full GitHub CI pending.
+```
+
+---
+
+# Historique de la livraison PHASE 2 avant ce correctif
+
 # TEST_RESULTS — PHASE 2 — 2026-09-05
 
 Les PHASES 0/0.5/1 sont validées selon la confirmation CI verte fournie par l'utilisateur. Cela n'est pas présenté comme une inspection indépendante des logs GitHub. Le rapport Work historique PHASE 1 est conservé dans docs/validation/PHASE_1_WORK_RESULTS.md.

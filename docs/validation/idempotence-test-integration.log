@@ -1,0 +1,55 @@
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+
+> jepeuxstationner@0.0.1 test:integration
+> npm run build && node --env-file-if-exists=.env --test dist/tests/integration/*.test.js
+
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+
+> jepeuxstationner@0.0.1 build
+> tsc -p tsconfig.json
+
+.env not found. Continuing without it.
+.env not found. Continuing without it.
+file:///workspace/scratch/99fb5d1b333a/jepeuxstationner/dist/tests/integration/database-engine.test.js:9
+    throw new Error('DATABASE_URL required: PostgreSQL integration has NOT been tested');
+          ^
+
+Error: DATABASE_URL required: PostgreSQL integration has NOT been tested
+    at file:///workspace/scratch/99fb5d1b333a/jepeuxstationner/dist/tests/integration/database-engine.test.js:9:11
+    at ModuleJob.run (node:internal/modules/esm/module_job:439:25)
+    at async node:internal/modules/esm/loader:643:26
+    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:101:5)
+
+Node.js v24.19.0
+✖ dist/tests/integration/database-engine.test.js (78.09368ms)
+.env not found. Continuing without it.
+file:///workspace/scratch/99fb5d1b333a/jepeuxstationner/dist/tests/integration/dialog.test.js:9
+    throw new Error('DATABASE_URL required; DiaLog PostGIS NOT tested');
+          ^
+
+Error: DATABASE_URL required; DiaLog PostGIS NOT tested
+    at file:///workspace/scratch/99fb5d1b333a/jepeuxstationner/dist/tests/integration/dialog.test.js:9:11
+    at ModuleJob.run (node:internal/modules/esm/module_job:439:25)
+    at async node:internal/modules/esm/loader:643:26
+    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:101:5)
+
+Node.js v24.19.0
+✖ dist/tests/integration/dialog.test.js (85.240257ms)
+ℹ tests 2
+ℹ suites 0
+ℹ pass 0
+ℹ fail 2
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 96.583485
+
+✖ failing tests:
+
+test at dist/tests/integration/database-engine.test.js:1:1
+✖ dist/tests/integration/database-engine.test.js (78.09368ms)
+  'test failed'
+
+test at dist/tests/integration/dialog.test.js:1:1
+✖ dist/tests/integration/dialog.test.js (85.240257ms)
+  'test failed'

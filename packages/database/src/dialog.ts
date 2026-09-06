@@ -1,4 +1,5 @@
 import type pg from 'pg';
+import { dialogBusinessFingerprint } from './dialog-fingerprint.js';
 import { readFile } from 'node:fs/promises';
 import type { ImportedParkingRule } from '../../domain/src/imported-rule.js';
 import type { ParkingQuery } from '../../domain/src/index.js';
@@ -21,8 +22,14 @@ export async function syncDiaLog(client:pg.Client, parsed:ParsedDiaLog, retrieve
   if(changes.invalid/Math.max(parsed.stats.accepted,1)>0.01)throw new DiaLogError('QUALITY');
   const old=await client.query("SELECT external_id,normalized,present FROM imported_parking_rules WHERE source_id='dialog'");
   const existing=new Map(old.rows.map(r=>[String(r.external_id),r]));
-  const semantic=(r:ImportedParkingRule)=>JSON.stringify({...r,source:{...r.source,observedAt:undefined,retrievedAt:undefined,freshUntil:undefined}});
-  for(const r of valid){const prior=existing.get(r.externalId);if(!prior)changes.inserted++;else if(!prior.present||semantic(prior.normalized as ImportedParkingRule)!==semantic(r))changes.updated++;}
+  const businessChanges=new Set<string>();
+  for(const r of valid){
+   const prior=existing.get(r.externalId);
+   if(!prior){changes.inserted++;businessChanges.add(r.externalId);}
+   else if(!prior.present||dialogBusinessFingerprint(prior.normalized as ImportedParkingRule)!==dialogBusinessFingerprint(r)){
+    changes.updated++;businessChanges.add(r.externalId);
+   }
+  }
   // Any rejected entry disables disappearance processing: never deactivate a record we failed to decode.
   const allowDeactivate=parsed.stats.invalid===0&&changes.invalid===0&&parsed.stats.fetched>0;
   changes.deactivated=allowDeactivate?old.rows.filter(r=>r.present&&!seen.has(String(r.external_id))).length:0;
@@ -30,10 +37,23 @@ export async function syncDiaLog(client:pg.Client, parsed:ParsedDiaLog, retrieve
    await client.query(`INSERT INTO data_sources(id,adapter_id,authority,kind,reference,version,synthetic,observed_at,fresh_until)
     VALUES('dialog','dialog','OFFICIAL','DATASET',$1,'3',false,$2,$3)
     ON CONFLICT(id) DO UPDATE SET observed_at=EXCLUDED.observed_at,fresh_until=EXCLUDED.fresh_until`,[DIALOG_ENDPOINT,retrievedAt,valid[0]?.source.freshUntil??new Date(Date.parse(retrievedAt)+86400000).toISOString()]);
-   for(const r of valid)await client.query(`INSERT INTO imported_parking_rules(source_id,external_id,geometry,valid_during,active,supported,retrieved_at,normalized)
+   for(const r of valid) {
+    if(!businessChanges.has(r.externalId)) {
+     // Only refresh observation evidence; never rewrite geometry, period or business payload.
+     const freshness={observedAt:r.source.observedAt,retrievedAt:r.source.retrievedAt,freshUntil:r.source.freshUntil,sourceUpdatedAt:r.source.sourceUpdatedAt};
+     await client.query(`UPDATE imported_parking_rules SET retrieved_at=$2,
+      normalized=jsonb_set(normalized,'{source}',((normalized->'source') - 'observedAt' - 'retrievedAt' - 'freshUntil' - 'sourceUpdatedAt') || $3::jsonb)
+      WHERE source_id='dialog' AND external_id=$1 AND
+       (retrieved_at IS DISTINCT FROM $2::timestamptz OR normalized->'source' IS DISTINCT FROM
+        (((normalized->'source') - 'observedAt' - 'retrievedAt' - 'freshUntil' - 'sourceUpdatedAt') || $3::jsonb))`,
+      [r.externalId,retrievedAt,JSON.stringify(freshness)]);
+     continue;
+    }
+    await client.query(`INSERT INTO imported_parking_rules(source_id,external_id,geometry,valid_during,active,supported,retrieved_at,normalized)
     VALUES('dialog',$1,ST_SetSRID(ST_GeomFromGeoJSON($2),4326),tstzrange($3::timestamptz,$4::timestamptz,'[)'),$5,$6,$7,$8)
     ON CONFLICT(source_id,external_id) DO UPDATE SET geometry=EXCLUDED.geometry,valid_during=EXCLUDED.valid_during,active=EXCLUDED.active,supported=EXCLUDED.supported,retrieved_at=EXCLUDED.retrieved_at,normalized=EXCLUDED.normalized,present=true`,
     [r.externalId,JSON.stringify(r.geometry),r.start,r.end,r.active,r.supported,retrievedAt,JSON.stringify(r)]);
+   }
    if(allowDeactivate)await client.query("UPDATE imported_parking_rules SET present=false WHERE source_id='dialog' AND present AND NOT(external_id=ANY($1::text[]))",[[...seen]]);
   }
   await client.query(dryRun?'ROLLBACK':'COMMIT');changes.durationMs=performance.now()-began;return changes;

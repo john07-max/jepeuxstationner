@@ -1,0 +1,7 @@
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+
+> jepeuxstationner@0.0.1 db:explain
+> node --env-file-if-exists=.env scripts/db.mjs explain
+
+.env not found. Continuing without it.
+Database validation FAILED (explain): DATABASE_URL is required. No database validation was performed.

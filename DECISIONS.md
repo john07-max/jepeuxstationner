@@ -69,3 +69,15 @@ Les logs joints sous docs/validation sont des preuves d'exécution sur exemples 
 | ADR-036 | Fraîcheur récupérée et contrôles séparés | Défaut 24 h ; pas de sourceUpdatedAt fabriquée. XML live manuel, fixtures offline en CI principale et vrai PostgreSQL uniquement sur GitHub. |
 
 Les modèles et choix détaillés, notamment les limites d'identité et le scénario B, sont dans DIALOG.md. Le moteur passe à 0.0.3 pour ces changements ciblés ; les tests des décisions antérieures restent inchangés. Aucune PHASE 3 commencée.
+
+## ADR-037 — correction ciblée d'idempotence — 2026-09-06
+
+Cause : comparaison JSON.stringify d'objets relus depuis JSONB, dont l'ordre des propriétés n'est pas conservé. Les dates observedAt/retrievedAt/freshUntil étaient déjà exclues ; cela ne corrigeait pas l'ordre des clés. L'upsert était aussi inconditionnel, même quand le compteur métier valait zéro.
+
+Fingerprint SHA-256 sur une liste explicite de champs métier : identités, effet, conditions, géométrie, dates d'application normalisées UTC, permanent/active/supported, limitations, récurrences, véhicules, référence/description et provenance fonctionnelle (référence, version, autorité, valeur juridique, notice, indicateur synthétique). Tri récursif des propriétés, y compris dans les sous-conditions JSON sérialisées. Ordre des tableaux conservé, notamment coordonnées : aucune équivalence topologique supposée. present est comparé séparément ; une réactivation compte comme modification.
+
+Exclusion des dates d'observation/récupération/fraîcheur et sourceUpdatedAt, purement informative dans le modèle actuel. Les nouveaux champs ne deviennent pas implicitement métier : étendre la liste explicitement s'ils influencent les règles. Aucun changement de clé externe ni migration.
+
+Si le fingerprint diffère ou la ligne est absente/désactivée, upsert métier et compteur correspondant. Sinon, UPDATE limité à retrieved_at et aux quatre métadonnées de fraîcheur sous normalized.source, seulement si distinctes ; aucun changement de géométrie, période, statut ou données métier. Avec les mêmes timestamps, aucune écriture de ligne de règle. Le rafraîchissement de data_sources reste indépendant et ne compte pas comme updated. La transaction, le verrou, le dry-run et les règles de désactivation sont conservés.
+
+Tests : huit nouveaux tests offline et quatre nouveaux tests PostgreSQL ; test d'idempotence original et test de modification de fin conservés. Le test PostgreSQL utilise aussi un trigger de contrôle des colonnes métier et xmin pour vérifier l'absence réelle d'écriture sur une règle identique. Validation runtime en attente de CI.

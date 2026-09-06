@@ -54,3 +54,33 @@ test('DiaLog spatial EXPLAIN ANALYZE BUFFERS on 20000 rows without forcing index
  const indexes=await client.query("SELECT indexname FROM pg_indexes WHERE schemaname=current_schema() AND tablename='imported_parking_rules' AND indexdef LIKE '%USING gist%'");assert.equal(indexes.rowCount,3);
  }finally{await client.query('ROLLBACK');}
 });
+test('idempotence refreshes retrievedAt without a business update',async()=>{
+ await imported();
+ const later='2026-09-05T13:00:00Z';const p=await fixture('parking-active',later);
+ // A column-specific trigger proves that the freshness path does not write business columns.
+ await client.query(`CREATE FUNCTION reject_business_update() RETURNS trigger LANGUAGE plpgsql AS $$ BEGIN RAISE EXCEPTION 'unexpected business write'; END $$;
+ CREATE TRIGGER reject_business_update BEFORE UPDATE OF geometry,valid_during,active,supported,present ON imported_parking_rules FOR EACH ROW EXECUTE FUNCTION reject_business_update()`);
+ try {
+  const c=await syncDiaLog(client,p,later);assert.deepEqual([c.inserted,c.updated,c.deactivated],[0,0,0]);
+  const row=(await client.query('SELECT retrieved_at,normalized FROM imported_parking_rules')).rows[0];
+  assert.equal(row.retrieved_at.toISOString(),'2026-09-05T13:00:00.000Z');assert.equal(row.normalized.source.retrievedAt,later);
+  assert.equal((await decision(4.005,44,5,later)).status,'FORBIDDEN');
+ }finally{await client.query('DROP TRIGGER reject_business_update ON imported_parking_rules; DROP FUNCTION reject_business_update()');}
+});
+test('idempotence ignores recursively reordered JSON properties',async()=>{
+ const p=await imported();
+ const reorder=(v:unknown):unknown=>Array.isArray(v)?v.map(reorder):v!==null&&typeof v==='object'?Object.fromEntries(Object.entries(v).reverse().map(([k,x])=>[k,reorder(x)])):v;
+ p.rules=p.rules.map(r=>reorder(r) as typeof r);
+ const c=await syncDiaLog(client,p,now);assert.deepEqual([c.inserted,c.updated,c.deactivated],[0,0,0]);
+});
+test('same external identity with changed geometry counts exactly one update',async()=>{
+ const p=await imported();p.rules[0]!.geometry={type:'LineString',coordinates:[[4,44.001],[4.01,44.001]]};
+ const c=await syncDiaLog(client,p,now);assert.deepEqual([c.inserted,c.updated,c.deactivated],[0,1,0]);
+ assert.equal((await decision()).status,'UNKNOWN');assert.equal((await decision(4.005,44.001)).status,'FORBIDDEN');
+});
+test('identical import performs no rule row write at all',async()=>{
+ await clear();const p=await fixture();const first=await syncDiaLog(client,p,now);assert.deepEqual([first.inserted,first.updated,first.deactivated],[1,0,0]);
+ const before=(await client.query('SELECT xmin::text AS version FROM imported_parking_rules')).rows;
+ const second=await syncDiaLog(client,p,now);assert.deepEqual([second.inserted,second.updated,second.deactivated],[0,0,0]);
+ assert.deepEqual((await client.query('SELECT xmin::text AS version FROM imported_parking_rules')).rows,before);
+});
