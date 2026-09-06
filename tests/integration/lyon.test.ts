@@ -87,3 +87,14 @@ test('Lyon DB HTTP API preserves prohibition and three facilities in under 500ms
   assert.ok(durationMs<500,`Real HTTP/DB request took ${durationMs}ms`);
  } finally {await new Promise<void>((resolve,reject)=>{server.close(error=>error?reject(error):resolve());server.closeAllConnections();});}
 });
+
+test('Lyon DB bootstrap persists a real PostGIS contour idempotently without parking bays',async()=>{
+ const {pathToFileURL}=await import('node:url');
+ const {saveBoundary}=await import(pathToFileURL(process.cwd()+'/scripts/lyon-boundary.mjs').href);
+ const feature={type:'Feature',properties:{code:'69123',nom:'Lyon'},geometry:{type:'Polygon',coordinates:[[[4.7,45.6],[4.9,45.6],[4.9,45.9],[4.7,45.9],[4.7,45.6]]]}};
+ const before=(await client.query('SELECT count(*)::int n FROM parking_zones')).rows[0].n;
+ await saveBoundary(client,feature);await saveBoundary(client,feature);
+ const result=await client.query("SELECT ST_Covers(boundary,ST_SetSRID(ST_MakePoint(4.83,45.76),4326)) covered, ST_SRID(boundary) srid FROM cities WHERE id='lyon'");
+ assert.equal(result.rowCount,1);assert.equal(result.rows[0].covered,true);assert.equal(result.rows[0].srid,4326);
+ assert.equal((await client.query('SELECT count(*)::int n FROM parking_zones')).rows[0].n,before);
+});

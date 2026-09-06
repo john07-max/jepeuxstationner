@@ -1,3 +1,34 @@
+# Validation PHASE 4.5 — préparation Railway
+
+La PHASE 4 et toute sa CI sont confirmées vertes par l'utilisateur. Aucun déploiement Railway n'a été effectué. L'historique antérieur ci-dessous n'est pas le statut actuel.
+
+## TESTS EXÉCUTÉS DANS L'ENVIRONNEMENT WORK
+
+- npm ci : réussi, 91 paquets installés.
+- npm run build : réussi, API et frontend de production ; avertissement de taille MapLibre inchangé.
+- npm run typecheck : réussi.
+- npm test : **299 tests réussis, 0 échec, 0 ignoré** (296 historiques + 3 validations de contour).
+- npm run demo et lyon:coverage hors réseau : réussis.
+- Vrai démarrage `dist/apps/web/server/start.js` avec PORT=4191 : health HTTP 200 et page de production HTTP 200. DATABASE_URL pointait volontairement sur un port indisponible ; aucun test PostgreSQL n'est déduit de ce contrôle.
+
+Preuves : docs/validation/phase45-*. Les sources officielles n'ont pas été synchronisées dans une base par Work. Aucun service Railway, Docker ou PostgreSQL n'a été lancé ici.
+
+## VALIDATIONS PRÉPARÉES MAIS NON EXÉCUTÉES ICI
+
+- Image Docker Node 24 et smoke du conteneur : étapes CI ajoutées, non exécutées dans Work.
+- PostgreSQL/PostGIS, migrations et 60 intégrations dont le nouveau bootstrap de contour : CI à rejouer après cette modification.
+- 21 E2E inchangés : précédente CI verte selon l'utilisateur ; non réexécutés ici faute de Chromium disponible.
+- Téléchargements et imports officiels : à exécuter par Sync-Lyon dans Railway.
+- Domaine public, variables privées, volume et health Railway : à configurer par l'utilisateur.
+
+Inventaire JS/TS : **380 = 299 locaux + 60 intégrations + 21 E2E**, plus assertions SQL. Le succès local du build npm n'est pas une preuve d'exécution du conteneur ou de déploiement Railway.
+
+Dépôt préparé pour déploiement de préproduction ; exécution et recette Railway en attente. La PHASE 5 n'est pas commencée.
+
+---
+
+# Historique
+
 # Dernière validation — correctif E2E PHASE 4
 
 Le run précédent est annoncé par l'utilisateur : **19/21 E2E réussis, 2 échoués**, autres étapes vertes. Deux bugs de test corrigés, aucun fichier produit modifié. Voir [PHASE4_E2E_FIX.md](PHASE4_E2E_FIX.md).

@@ -1,0 +1,4 @@
+{"event":"server.ready","port":4191}
+{"event":"health","status":200,"durationMs":1,"city":"Lyon"}
+
+PASS production entry: PORT=4191, /api/health=200, static web=200. No PostgreSQL connection tested.

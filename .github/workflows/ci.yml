@@ -59,6 +59,26 @@ jobs:
         run: npx playwright install --with-deps chromium 2>&1 | tee artifacts/browser-install.log
       - name: Mobile and desktop E2E without public APIs
         run: npm run test:e2e 2>&1 | tee artifacts/e2e.log
+      - name: Build Railway staging image
+        run: docker build -t jps-staging . 2>&1 | tee artifacts/staging-image.log
+      - name: Smoke test production container
+        run: |
+          docker run -d --name jps-staging --network host -e DATABASE_URL -e PORT=4185 -e APP_ORIGIN=http://127.0.0.1:4185 jps-staging
+          trap 'docker logs jps-staging > artifacts/staging-http.log 2>&1; docker rm -f jps-staging' EXIT
+          node --input-type=module <<'JS'
+          import {setTimeout as delay} from 'node:timers/promises';
+          let ready=false;
+          for(let i=0;i<30;i++) {
+            try { const r=await fetch('http://127.0.0.1:4185/api/ready');if(r.ok){ready=true;break;} } catch {}
+            await delay(1000);
+          }
+          if(!ready)throw new Error('Production container readiness failed');
+          for(const path of ['/api/health','/']) {
+            const r=await fetch('http://127.0.0.1:4185'+path);
+            if(!r.ok)throw new Error('Production HTTP smoke failed');
+          }
+          console.log('PASS production container health, readiness and static web');
+          JS
       - name: Collect database container logs
         if: always()
         run: |

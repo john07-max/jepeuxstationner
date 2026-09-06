@@ -1,0 +1,11 @@
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+
+> jepeuxstationner@0.0.1 lyon:coverage
+> npm run build:core && node --use-env-proxy dist/apps/demo/src/sync-lyon.js coverage --file data/lyon/roads.geojson
+
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+
+> jepeuxstationner@0.0.1 build:core
+> tsc -p tsconfig.json
+
+{"officialStreets":1142,"matched":1103,"ambiguous":0,"unmatched":39,"coveragePercent":96.58,"verifiedParkingSpaces":0}

@@ -1,3 +1,15 @@
+# PHASE 4.5 — Préproduction Railway
+
+La PHASE 4 et toute sa CI sont confirmées vertes par l'utilisateur. Préparation Railway uniquement, sans déploiement effectué et sans PHASE 5.
+
+**Commencer ici : [Déployer JePeuxStationner sur Railway](DEPLOYMENT.md).** Le guide explique les trois services (site, PostGIS, synchronisations) et tous les clics sans Docker/PostgreSQL sur votre PC. Build : `npm run build`, démarrage : `npm start`, migrations : `npm run db:migrate`, imports : `npm run staging:sync`.
+
+Un contour officiel initialise Lyon ; aucune place certifiée n'est inventée. La disponibilité de données métier reste distincte du succès du déploiement. Résultats : [TEST_RESULTS.md](TEST_RESULTS.md). Livraison : [DELIVERY_PHASE_4_5.md](DELIVERY_PHASE_4_5.md).
+
+---
+
+## Documentation des phases précédentes (historique)
+
 # JePeuxStationner — PHASE 4 : API et interface mobile
 
 [![CI](https://github.com/john07-max/jepeuxstationner/actions/workflows/ci.yml/badge.svg)](https://github.com/john07-max/jepeuxstationner/actions/workflows/ci.yml)

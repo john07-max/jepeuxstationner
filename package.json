@@ -43,7 +43,9 @@
     "demo:web": "node scripts/dev-web.mjs --demo",
     "start": "node --use-env-proxy --env-file-if-exists=.env dist/apps/web/server/start.js",
     "test:api": "npm run build:core && node --test dist/tests/api.test.js",
-    "test:e2e": "playwright test"
+    "test:e2e": "playwright test",
+    "sync:lyon:boundary": "node --use-env-proxy --env-file-if-exists=.env scripts/lyon-boundary.mjs",
+    "staging:sync": "npm run db:migrate && npm run db:check && npm run sync:lyon:boundary && npm run sync:lyon:parking-rules && npm run sync:lyon:facilities && npm run sync:dialog && node -e \"console.log('STAGING_SYNC_COMPLETE')\""
   },
   "devDependencies": {
     "@playwright/test": "1.63.0",

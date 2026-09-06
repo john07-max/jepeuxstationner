@@ -59,3 +59,7 @@ Ajout de apps/web, API check/autocomplete/reverse/health/ready, interface React 
 ## PHASE 4 — correction des deux assertions E2E
 
 Locator autocomplete limité aux adresses, fixture dédiée déterministe, coordonnées exactes et durée contrôlées. Test carte fonctionnel avant/après clic. Aucun code produit changé ; 21 scénarios conservés. 296 tests locaux passent ; nouvelle CI en attente.
+
+## PHASE 4.5 — Préparation Railway
+
+Dockerfile Node 24 et exclusions de build ; guide Railway via interface avec base PostGIS persistante, migrations et synchronisation séparée. Bootstrap administratif Lyon nécessaire à une base neuve, sans fausses places ni permissions. Trois tests locaux et une intégration de contour ; CI de construction/smoke du conteneur ajoutée. Aucun déploiement, changement métier ou PHASE 5.

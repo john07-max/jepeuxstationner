@@ -38,3 +38,7 @@ Audit détaillé dans LYON_AUDIT.md ; endpoints et licences dans data/lyon/sourc
 La donnée temps réel n'est pas intégrée en production : HTTP 401 constaté, licence metadata Other (Public Domain), champs d'observation non confirmés. Le test live manuel doit observer le schéma avant renseignement du mapping explicite. Les tests hors réseau utilisent des observations fictives identifiées comme telles.
 
 Le rapprochement de noms et axes obtient 96,58 %, mais aucune place de stationnement n'est certifiée. Le registre local garde URL, licence, version et date lorsque disponibles ; les dates de publication inconnues ne sont pas inventées. Lire LYON.md pour les critères de fraîcheur et les règles non intégrées.
+
+## Contour administratif Lyon — PHASE 4.5
+
+Source administrative : API Découpage administratif, commune 69123 (Lyon), `https://geo.api.gouv.fr/communes/69123?format=geojson&geometry=contour`. Documentation : https://geo.api.gouv.fr/decoupage-administratif/communes. Utilisée uniquement par sync:lyon:boundary pour le périmètre cities.boundary ; ni permissions ni preuve de place. L'identité communale et Polygon/MultiPolygon sont contrôlés, puis les contraintes existantes vérifient la géométrie. URL et date de récupération journalisées. Aucun payload d'utilisateur transmis à cette source.
